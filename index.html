@@ -3,409 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation | Fulan & Fulanah</title>
-
+    <title>Undangan Pernikahan - Fulan & Fulanah</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
+        /* CSS untuk Styling Halaman */
         :root {
-            --navy: #1A2238;
-            --gold: #FFD700;
-            --cream: #F3EFEA;
-            --soft-pink: #E8C2CA;
-            --font-display: 'Playfair Display', serif;
-            --font-body: 'Poppins', sans-serif;
+            --color-gold: #BFA05B;
+            --color-dark: #333;
+            --color-light: #f9f9f9;
+            --font-heading: 'Great Vibes', cursive;
+            --font-body: 'Montserrat', sans-serif;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--navy);
             font-family: var(--font-body);
-            overflow: hidden; /* Sembunyikan scrollbar awal */
-        }
-
-        /* --- 1. OPENING SCENE (AMPLOP 3D) --- */
-        #opening-scene {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            background-color: #f0e8e0; /* Warna latar belakang lembut */
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to bottom, #2c3e50, #4a69bd); /* Langit senja */
-            z-index: 100;
-            transition: opacity 1s ease-in-out, visibility 1s;
-        }
-
-        .envelope-container {
-            perspective: 1000px;
-        }
-
-        .envelope {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 1s ease;
-        }
-
-        .envelope-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: var(--cream);
-            border-radius: 5px;
-        }
-
-        .envelope-flap {
-            position: absolute;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, #e0e0e0, var(--cream));
-            top: 0;
-            left: 0;
-            transform-origin: top;
-            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            clip-path: polygon(0 0, 100% 0, 50% 50%);
-        }
-
-        .envelope.open .envelope-flap {
-            transform: rotateX(180deg);
-        }
-
-        .invitation-card-preview {
-            position: absolute;
-            width: 95%;
-            height: 95%;
-            background: linear-gradient(135deg, var(--navy), #25314e);
-            color: var(--gold);
-            top: 2.5%; left: 2.5%;
-            border-radius: 3px;
-            transform: translateY(0);
-            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            font-family: var(--font-display);
-        }
-        
-        .invitation-card-preview h4 { font-size: 1.5rem; }
-        .invitation-card-preview p { font-size: 1rem; }
-
-        .envelope.open .invitation-card-preview {
-            transform: translateY(-110px) scale(1.2);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        #open-button {
-            position: absolute;
-            bottom: 15%;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s 1s, transform 0.5s 1s;
-            padding: 12px 25px;
-            border: 2px solid var(--gold);
-            background: transparent;
-            color: white;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-        }
-
-        .envelope.open + #open-button {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 2. MAIN INVITATION (KONTEN UTAMA) --- */
-        #main-invitation {
-            display: none; /* Awalnya tersembunyi */
-            height: 100vh;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            perspective: 3px; /* Jarak pandang parallax */
-            position: relative;
-        }
-
-        .parallax-layer {
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-        }
-        /* Lapisan paling belakang (langit) */
-        .parallax-bg {
-            transform: translateZ(-10px) scale(4.3);
-            background: linear-gradient(to bottom, #141927, #1A2238);
-            z-index: 1;
-        }
-        /* Lapisan tengah (partikel, bunga) */
-        .parallax-mid {
-            transform: translateZ(-2px) scale(1.6);
-            z-index: 3;
-            pointer-events: none; /* Biar bisa klik konten di bawahnya */
-        }
-        /* Lapisan depan (konten utama) */
-        .parallax-content {
-            transform: translateZ(0);
-            z-index: 2;
-            background-color: var(--cream);
-        }
-        
-        /* Konten */
-        .content-section {
-            padding: 80px 10%;
-            position: relative;
-            background-color: var(--cream);
-            text-align: center;
-        }
-        .header-section {
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--navy);
-        }
-        .couple-names {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-style: italic;
-            background: linear-gradient(45deg, #ffd700, #f0c000, #d4af37, #b8860b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: shine 5s linear infinite;
-        }
-        @keyframes shine {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+            color: var(--color-dark);
         }
 
-        .event-details, .location, .rsvp {
+        .card {
             background-color: white;
-            padding: 60px 10%;
-            margin-top: -1px; /* Mencegah garis aneh antar section */
-        }
-
-        h2 {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            color: var(--navy);
-            margin-bottom: 30px;
-        }
-
-        /* Bunga 3D Animasi */
-        .animated-flower {
-            position: absolute;
-            width: 300px;
-            z-index: 4;
-            pointer-events: none;
-        }
-        .flower-left { top: 20%; left: -50px; }
-        .flower-right { bottom: 10%; right: -50px; transform: scaleX(-1); }
-
-        /* Partikel Cahaya */
-        .particles { position: absolute; width: 100%; height: 100%; overflow: hidden; }
-        .particle {
-            position: absolute;
-            background-color: var(--gold);
-            border-radius: 50%;
-            opacity: 0;
-            animation: float 10s infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(0); opacity: 0; }
-            50% { opacity: 0.7; }
-            100% { transform: translateY(-100vh) translateX(20vw); opacity: 0; }
-        }
-
-        /* Tombol RSVP Interaktif */
-        .rsvp-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
-        .rsvp-btn {
-            padding: 15px 35px;
-            border: 2px solid var(--navy);
-            background: transparent;
-            color: var(--navy);
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
             overflow: hidden;
-            transition: all 0.3s;
+            border: 1px solid #ddd;
         }
-        .rsvp-btn:hover { background-color: var(--navy); color: white; }
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 215, 0, 0.5);
-            transform: scale(0);
-            animation: ripple-effect 0.6s linear;
-            pointer-events: none;
-        }
-        @keyframes ripple-effect {
-            to { transform: scale(4); opacity: 0; }
+
+        .card-header {
+            padding: 30px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
         }
         
-        /* Music Player */
-        #music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 101;
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            width: 40px;
-            height: 40px;
+        .card-header h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--color-gold);
+            margin: 0;
+        }
+
+        .couple-photo {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--color-gold);
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .couple-names {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--color-dark);
+            margin: 20px 0 10px 0;
+        }
+
+        .invitation-text {
+            font-size: 0.9rem;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+
+        .event-details {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-around;
+            padding: 30px 20px;
+            background-color: var(--color-light);
+            flex-wrap: wrap;
+            gap: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .event-section {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .event-section h3 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            color: var(--color-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .event-section p {
+            margin: 10px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .event-section i {
+            color: var(--color-gold);
+            margin-right: 10px;
+            width: 20px; /* Agar ikon sejajar */
+        }
+
+        .quote-section {
+            padding: 30px;
+            font-style: italic;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .guestbook-section {
+            padding: 30px;
+            background-color: var(--color-light);
+        }
+
+        .guestbook-section h2 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            color: var(--color-dark);
+            margin-bottom: 20px;
+        }
+
+        #guestbook-form input,
+        #guestbook-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: var(--font-body);
+        }
+
+        #guestbook-form button {
+            background-color: var(--color-gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
             cursor: pointer;
-            display: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #guestbook-form button:hover {
+            background-color: #a38647;
+        }
+
+        #wishes-list {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .wish-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--color-gold);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .wish-card .sender-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .wish-card .message-text {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
         }
         
+        .card-footer {
+            padding: 20px;
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-gold);
+        }
     </style>
 </head>
 <body>
 
-    <audio id="background-music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-    <div id="music-player"><i class="fas fa-volume-mute"></i></div>
+    <div class="card">
+        <div class="card-header">
+            <h1>The Wedding Of</h1>
+            
+            <img src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin" class="couple-photo">
+            
+            <h2 class="couple-names">Fulan &amp; Fulanah</h2>
 
-    <div id="opening-scene">
-        <div class="envelope-container">
-            <div class="envelope" id="envelope">
-                <div class="invitation-card-preview">
-                    <h4>F & F</h4>
-                    <p>You're Invited</p>
-                </div>
-                <div class="envelope-back"></div>
-                <div class="envelope-flap"></div>
+            <p class="invitation-text">
+                Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
+            </p>
+        </div>
+
+        <div class="event-details">
+            <div class="event-section">
+                <h3>Akad Nikah</h3>
+                <p><i class="fa-solid fa-calendar-days"></i>Sabtu, 21 Desember 2025</p>
+                <p><i class="fa-solid fa-clock"></i>09:00 - 10:00 WIB</p>
+                <p><i class="fa-solid fa-map-marker-alt"></i>Masjid Istiqlal, Jakarta</p>
+            </div>
+            <div class="event-section">
+                <h3>Resepsi</h3>
+                <p><i class="fa-solid fa-calendar-check"></i>Sabtu, 21 Desember 2025</p>
+                <p><i class="fa-solid fa-clock"></i>11:00 - 14:00 WIB</p>
+                <p><i class="fa-solid fa-map-marked-alt"></i>Gedung Balai Kartini, Jakarta</p>
             </div>
         </div>
-        <button id="open-button">Buka Undangan</button>
+
+        <div class="quote-section">
+            <p>
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+                <br><strong>(QS. Ar-Rum: 21)</strong>
+            </p>
+        </div>
+        
+        <div class="guestbook-section">
+            <h2>Kirim Ucapan & Doa</h2>
+            <form id="guestbook-form">
+                <input type="text" id="guest-name" placeholder="Nama Anda" required>
+                <textarea id="guest-message" rows="4" placeholder="Tulis ucapan Anda di sini..." required></textarea>
+                <button type="submit">Kirim Ucapan</button>
+            </form>
+            <div id="wishes-list">
+                </div>
+        </div>
+
+        <div class="card-footer">
+            <p>Terima Kasih</p>
+        </div>
+
     </div>
 
-    <main id="main-invitation">
-        <div class="parallax-layer parallax-bg"></div>
-        <div class="parallax-layer parallax-mid">
-            <div class="particles" id="particles-container"></div>
-            <img src="https://cdn.pixabay.com/animation/2023/04/18/19/21/19-21-23-44_512.gif" class="animated-flower flower-left">
-            <img src="https://cdn.pixabay.com/animation/2023/04/18/19/21/19-21-23-44_512.gif" class="animated-flower flower-right">
-        </div>
-        <div class="parallax-layer parallax-content">
-
-            <header class="content-section header-section">
-                <h1 class="couple-names">Fulan & Fulanah</h1>
-                <p style="margin-top: 20px;">We are getting married!</p>
-            </header>
-
-            <section class="content-section event-details">
-                <h2>Save The Date</h2>
-                <p><strong>Akad Nikah:</strong> Sabtu, 21 Desember 2025 | 09:00 WIB</p>
-                <p><strong>Resepsi:</strong> Sabtu, 21 Desember 2025 | 11:00 WIB</p>
-            </section>
-
-            <section class="content-section location">
-                <h2>Location</h2>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.577239103816!2d106.8249626759145!3d-6.187313993801211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f43534345393%3A0xd1936e332e987826!2sMasjid%20Istiqlal!5e0!3m2!1sen!2sid!4v1725616578659!5m2!1sen!2sid" width="100%" height="450" style="border:0; border-radius:10px; max-width: 600px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </section>
-
-            <section class="content-section rsvp">
-                <h2>RSVP</h2>
-                <p>Kehadiran Anda adalah hadiah terindah. Mohon konfirmasi kehadiran Anda.</p>
-                <div class="rsvp-buttons">
-                    <button class="rsvp-btn">Hadir</button>
-                    <button class="rsvp-btn">Tidak Hadir</button>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const envelope = document.getElementById('envelope');
-        const openButton = document.getElementById('open-button');
-        const openingScene = document.getElementById('opening-scene');
-        const mainInvitation = document.getElementById('main-invitation');
-        const body = document.body;
-        const music = document.getElementById('background-music');
-        const musicPlayer = document.getElementById('music-player');
+        // JavaScript untuk bagian interaktif (Buku Tamu)
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('guestbook-form');
+            const wishesList = document.getElementById('wishes-list');
 
-        // 1. Animasi Amplop
-        setTimeout(() => {
-            envelope.classList.add('open');
-        }, 500);
-
-        // 2. Tombol Buka Undangan
-        openButton.addEventListener('click', () => {
-            openingScene.style.opacity = '0';
-            openingScene.style.visibility = 'hidden';
-            
-            mainInvitation.style.display = 'block';
-            body.style.overflow = 'auto'; // Aktifkan scroll
-            
-            // Putar musik saat undangan dibuka
-            music.play();
-            musicPlayer.style.display = 'flex';
-            musicPlayer.innerHTML = '<i class="fas fa-volume-up"></i>';
-        });
-        
-        // 3. Kontrol Musik
-        musicPlayer.addEventListener('click', () => {
-            if (music.paused) {
-                music.play();
-                musicPlayer.innerHTML = '<i class="fas fa-volume-up"></i>';
-            } else {
-                music.pause();
-                musicPlayer.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            // Fungsi untuk menampilkan ucapan dari Local Storage saat halaman dimuat
+            function loadWishes() {
+                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+                wishes.forEach(wish => addWishToDOM(wish.name, wish.message));
             }
-        });
 
-        // 4. Efek Partikel Cahaya
-        const particlesContainer = document.getElementById('particles-container');
-        for (let i = 0; i < 30; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.width = `${Math.random() * 3 + 1}px`;
-            p.style.height = p.style.width;
-            p.style.left = `${Math.random() * 100}%`;
-            p.style.top = `${Math.random() * 100}%`;
-            p.style.animationDelay = `${Math.random() * 10}s`;
-            p.style.animationDuration = `${Math.random() * 10 + 5}s`;
-            particlesContainer.appendChild(p);
-        }
+            // Fungsi untuk menyimpan ucapan ke Local Storage
+            function saveWish(name, message) {
+                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+                wishes.push({ name, message });
+                localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+            }
+            
+            // Fungsi untuk menambahkan kartu ucapan ke halaman
+            function addWishToDOM(name, message) {
+                const wishCard = document.createElement('div');
+                wishCard.className = 'wish-card';
 
-        // 5. Efek Tombol RSVP Ripple
-        const rsvpButtons = document.querySelectorAll('.rsvp-btn');
-        rsvpButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const x = e.clientX - e.target.offsetLeft;
-                const y = e.clientY - e.target.offsetTop;
-                
-                const ripple = document.createElement('span');
-                ripple.className = 'ripple';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                
-                button.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
+                const senderName = document.createElement('p');
+                senderName.className = 'sender-name';
+                senderName.textContent = name;
+
+                const messageText = document.createElement('p');
+                messageText.className = 'message-text';
+                messageText.textContent = message;
+
+                wishCard.appendChild(senderName);
+                wishCard.appendChild(messageText);
+
+                // Menambahkan ucapan baru di paling atas
+                wishesList.prepend(wishCard);
+            }
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Mencegah form reload halaman
+
+                const guestNameInput = document.getElementById('guest-name');
+                const guestMessageInput = document.getElementById('guest-message');
+
+                const name = guestNameInput.value.trim();
+                const message = guestMessageInput.value.trim();
+
+                if (name && message) {
+                    // Tambahkan ke DOM
+                    addWishToDOM(name, message);
+                    // Simpan ke Local Storage
+                    saveWish(name, message);
+                    
+                    // Kosongkan form setelah dikirim
+                    form.reset();
+                } else {
+                    alert('Nama dan ucapan tidak boleh kosong!');
+                }
             });
+
+            // Muat ucapan yang sudah ada saat halaman dibuka
+            loadWishes();
         });
-    });
     </script>
+
 </body>
 </html>
