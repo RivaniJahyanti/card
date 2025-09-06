@@ -31,6 +31,7 @@
             align-items: center;
             min-height: 100vh;
             color: var(--color-dark);
+            box-sizing: border-box; /* Penting untuk responsivitas */
         }
 
         .card {
@@ -56,15 +57,80 @@
             margin: 0;
         }
 
-        .couple-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
+        /* --- SLIDESHOW STYLING --- */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 20px auto;
+            border-radius: 50%; /* Untuk memastikan foto tetap bulat */
+            overflow: hidden; /* Penting agar foto di dalamnya tidak keluar batas */
+            width: 250px; /* Ukuran container slideshow */
+            height: 250px;
             border: 5px solid var(--color-gold);
-            margin-top: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+
+        .mySlides {
+            display: none; /* Sembunyikan semua slide secara default */
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Pastikan foto mengisi area tanpa terdistorsi */
+            transition: opacity 0.5s ease-in-out; /* Efek transisi antar slide */
+        }
+
+        .mySlides.active {
+            display: block; /* Tampilkan slide yang aktif */
+        }
+
+        /* Tombol Next & Previous */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white; /* Warna ikon panah */
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.5); /* Latar belakang semi-transparan */
+            z-index: 10; /* Pastikan tombol di atas gambar */
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Indikator Dots */
+        .dots-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 10px;
+            width: 10px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: var(--color-gold);
+        }
+        /* --- END SLIDESHOW STYLING --- */
+
 
         .couple-names {
             font-family: var(--font-heading);
@@ -190,6 +256,26 @@
             font-size: 1.8rem;
             color: var(--color-gold);
         }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .card-header h1 {
+                font-size: 2.5rem;
+            }
+            .couple-names {
+                font-size: 2rem;
+            }
+            .event-details {
+                flex-direction: column;
+            }
+            .event-section {
+                min-width: unset;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -198,8 +284,21 @@
         <div class="card-header">
             <h1>The Wedding Of</h1>
             
-            <img src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin" class="couple-photo">
-            
+            <div class="slideshow-container">
+                <img class="mySlides fade" src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin 1">
+                <img class="mySlides fade" src="https://i.pinimg.com/564x/87/44/2c/87442c65a0b1275294068c818092fb13.jpg" alt="Foto Pengantin 2">
+                <img class="mySlides fade" src="https://i.pinimg.com/564x/83/8d/f9/838df9f27c38c0353c44c5f96b6c00d4.jpg" alt="Foto Pengantin 3">
+                <img class="mySlides fade" src="https://i.pinimg.com/564x/6c/11/e6/6c11e61b782c5f76f7b949103e994e4d.jpg" alt="Foto Pengantin 4">
+
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
             <h2 class="couple-names">Fulan &amp; Fulanah</h2>
 
             <p class="invitation-text">
@@ -247,25 +346,30 @@
     </div>
 
     <script>
-        // JavaScript untuk bagian interaktif (Buku Tamu)
+        // JavaScript untuk Slideshow
+        let slideIndex = 1;
+        let slideTimer; // Untuk menyimpan ID timer autoplay
+
         document.addEventListener('DOMContentLoaded', function() {
+            showSlides(slideIndex);
+            startAutoSlide(); // Mulai autoplay saat halaman dimuat
+
+            // Fungsi untuk buku tamu (tetap sama seperti sebelumnya)
             const form = document.getElementById('guestbook-form');
             const wishesList = document.getElementById('wishes-list');
 
-            // Fungsi untuk menampilkan ucapan dari Local Storage saat halaman dimuat
             function loadWishes() {
                 const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-                wishes.forEach(wish => addWishToDOM(wish.name, wish.message));
+                // Tampilkan ucapan terbaru di atas
+                wishes.reverse().forEach(wish => addWishToDOM(wish.name, wish.message));
             }
 
-            // Fungsi untuk menyimpan ucapan ke Local Storage
             function saveWish(name, message) {
                 const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
                 wishes.push({ name, message });
                 localStorage.setItem('weddingWishes', JSON.stringify(wishes));
             }
             
-            // Fungsi untuk menambahkan kartu ucapan ke halaman
             function addWishToDOM(name, message) {
                 const wishCard = document.createElement('div');
                 wishCard.className = 'wish-card';
@@ -281,12 +385,11 @@
                 wishCard.appendChild(senderName);
                 wishCard.appendChild(messageText);
 
-                // Menambahkan ucapan baru di paling atas
-                wishesList.prepend(wishCard);
+                wishesList.prepend(wishCard); // Tambahkan di paling atas
             }
 
             form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Mencegah form reload halaman
+                event.preventDefault();
 
                 const guestNameInput = document.getElementById('guest-name');
                 const guestMessageInput = document.getElementById('guest-message');
@@ -295,21 +398,59 @@
                 const message = guestMessageInput.value.trim();
 
                 if (name && message) {
-                    // Tambahkan ke DOM
                     addWishToDOM(name, message);
-                    // Simpan ke Local Storage
                     saveWish(name, message);
                     
-                    // Kosongkan form setelah dikirim
                     form.reset();
                 } else {
                     alert('Nama dan ucapan tidak boleh kosong!');
                 }
             });
 
-            // Muat ucapan yang sudah ada saat halaman dibuka
             loadWishes();
         });
+
+        // Fungsi untuk menggeser slide
+        function plusSlides(n) {
+            clearTimeout(slideTimer); // Hentikan autoplay saat user interaksi
+            showSlides(slideIndex += n);
+            startAutoSlide(); // Mulai lagi autoplay setelah interaksi user
+        }
+
+        // Fungsi untuk langsung ke slide tertentu
+        function currentSlide(n) {
+            clearTimeout(slideTimer); // Hentikan autoplay
+            showSlides(slideIndex = n);
+            startAutoSlide(); // Mulai lagi autoplay
+        }
+
+        // Fungsi utama menampilkan slide
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+                slides[i].classList.remove('active'); // Hapus class active
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active");
+            }
+            slides[slideIndex-1].style.display = "block";
+            slides[slideIndex-1].classList.add('active'); // Tambahkan class active
+            dots[slideIndex-1].classList.add("active");
+        }
+
+        // Fungsi untuk memulai autoplay
+        function startAutoSlide() {
+            clearTimeout(slideTimer); // Pastikan tidak ada timer ganda
+            slideTimer = setTimeout(function() {
+                plusSlides(1); // Geser ke slide berikutnya
+                startAutoSlide(); // Panggil fungsi ini lagi untuk loop
+            }, 5000); // Ganti gambar setiap 5 detik (5000 milidetik)
+        }
     </script>
 
 </body>
