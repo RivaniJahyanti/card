@@ -7,32 +7,100 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        /* CSS untuk Styling Halaman */
+        /* CSS Variables */
         :root {
             --color-gold: #BFA05B;
             --color-dark: #333;
             --color-light: #f9f9f9;
+            --color-green: #506753;
             --font-heading: 'Great Vibes', cursive;
             --font-body: 'Montserrat', sans-serif;
         }
 
+        /* General Styling */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--font-body);
-            background-color: #f0e8e0; /* Warna latar belakang lembut */
+            background-color: #f0e8e0;
             margin: 0;
+            padding: 0;
+            color: var(--color-dark);
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+        }
+
+        /* --- Cover Page --- */
+        #cover-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1523438885207-e6b412b1e8e8?q=80&w=1887&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            z-index: 100;
+            transition: opacity 1.5s ease-out, visibility 1.5s;
             padding: 20px;
+        }
+
+        #cover-page.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #cover-page h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            margin: 10px 0;
+            color: var(--color-gold);
+            font-weight: normal;
+        }
+
+        #cover-page p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        #open-invitation-btn {
+            background-color: var(--color-gold);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #open-invitation-btn:hover {
+            background-color: #a38647;
+            transform: scale(1.05);
+        }
+        
+        /* --- Main Content --- */
+        #main-content {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: var(--color-dark);
+            padding: 20px;
         }
-
+        
         .card {
             background-color: white;
             border-radius: 15px;
@@ -42,6 +110,27 @@
             text-align: center;
             overflow: hidden;
             border: 1px solid #ddd;
+            /* Animasi untuk konten utama */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Sections Styling */
+        .animated-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animated-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .card-header {
@@ -68,7 +157,7 @@
 
         .couple-names {
             font-family: var(--font-heading);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--color-dark);
             margin: 20px 0 10px 0;
         }
@@ -77,6 +166,34 @@
             font-size: 0.9rem;
             padding: 0 20px;
             line-height: 1.6;
+        }
+
+        /* --- Countdown Timer --- */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 30px 20px;
+            background-color: var(--color-green);
+            color: white;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            min-width: 60px;
+        }
+        .countdown-item span {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .countdown-item p {
+            font-size: 0.7rem;
+            margin: 0;
+            text-transform: uppercase;
         }
 
         .event-details {
@@ -112,38 +229,54 @@
         .event-section i {
             color: var(--color-gold);
             margin-right: 10px;
-            width: 20px; /* Agar ikon sejajar */
+            width: 20px;
+        }
+
+        .quote-section, .guestbook-section, .gift-section {
+            padding: 30px;
         }
 
         .quote-section {
-            padding: 30px;
             font-style: italic;
             color: #666;
             line-height: 1.7;
         }
 
-        .guestbook-section {
-            padding: 30px;
+        .guestbook-section, .gift-section {
             background-color: var(--color-light);
         }
 
-        .guestbook-section h2 {
+        .section-title {
             font-family: var(--font-body);
             font-weight: 700;
             color: var(--color-dark);
             margin-bottom: 20px;
         }
 
-        #guestbook-form input,
-        #guestbook-form textarea {
-            width: calc(100% - 20px);
+        /* --- Guestbook & RSVP Form --- */
+        #guestbook-form input, #guestbook-form textarea {
+            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-family: var(--font-body);
         }
-
+        
+        #rsvp-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        #rsvp-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
         #guestbook-form button {
             background-color: var(--color-gold);
             color: white;
@@ -162,6 +295,9 @@
         #wishes-list {
             margin-top: 30px;
             text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
 
         .wish-card {
@@ -173,15 +309,66 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .wish-card .sender-name {
-            font-weight: bold;
+        .wish-card .sender-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 5px;
         }
+        
+        .wish-card .sender-name {
+            font-weight: bold;
+        }
+        
+        .rsvp-status {
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .rsvp-status.attending { background-color: var(--color-green); }
+        .rsvp-status.not-attending { background-color: #c94c4c; }
 
         .wish-card .message-text {
             font-size: 0.9rem;
             color: #555;
             line-height: 1.5;
+        }
+
+        /* --- Gift Section --- */
+        .gift-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .gift-box {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .gift-box h4 {
+            margin-top: 0;
+            font-weight: 700;
+        }
+        #account-number {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        #copy-button {
+            background: var(--color-dark);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #copy-button:hover {
+            background: #555;
         }
         
         .card-footer {
@@ -190,127 +377,299 @@
             font-size: 1.8rem;
             color: var(--color-gold);
         }
+        
+        /* --- Music Control --- */
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-gold);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 99;
+        }
+        #music-control.playing i {
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="card-header">
-            <h1>The Wedding Of</h1>
-            
-            <img src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin" class="couple-photo">
-            
-            <h2 class="couple-names">Fulan &amp; Fulanah</h2>
+    <div id="cover-page">
+        <p>THE WEDDING OF</p>
+        <h1>Fulan & Fulanah</h1>
+        <button id="open-invitation-btn"><i class="fa-solid fa-envelope-open"></i> Buka Undangan</button>
+    </div>
 
-            <p class="invitation-text">
-                Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
-            </p>
-        </div>
+    <div id="main-content">
+        <div class="card">
+            <div class="card-header animated-section">
+                <h1>The Wedding Of</h1>
+                
+                <img src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin" class="couple-photo">
+                
+                <h2 class="couple-names">Fulan &amp; Fulanah</h2>
 
-        <div class="event-details">
-            <div class="event-section">
-                <h3>Akad Nikah</h3>
-                <p><i class="fa-solid fa-calendar-days"></i>Sabtu, 21 Desember 2025</p>
-                <p><i class="fa-solid fa-clock"></i>09:00 - 10:00 WIB</p>
-                <p><i class="fa-solid fa-map-marker-alt"></i>Masjid Istiqlal, Jakarta</p>
+                <p class="invitation-text">
+                    Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
+                </p>
             </div>
-            <div class="event-section">
-                <h3>Resepsi</h3>
-                <p><i class="fa-solid fa-calendar-check"></i>Sabtu, 21 Desember 2025</p>
-                <p><i class="fa-solid fa-clock"></i>11:00 - 14:00 WIB</p>
-                <p><i class="fa-solid fa-map-marked-alt"></i>Gedung Balai Kartini, Jakarta</p>
-            </div>
-        </div>
 
-        <div class="quote-section">
-            <p>
-                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
-                <br><strong>(QS. Ar-Rum: 21)</strong>
-            </p>
-        </div>
-        
-        <div class="guestbook-section">
-            <h2>Kirim Ucapan & Doa</h2>
-            <form id="guestbook-form">
-                <input type="text" id="guest-name" placeholder="Nama Anda" required>
-                <textarea id="guest-message" rows="4" placeholder="Tulis ucapan Anda di sini..." required></textarea>
-                <button type="submit">Kirim Ucapan</button>
-            </form>
-            <div id="wishes-list">
+            <div id="countdown" class="animated-section">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <p>Hari</p>
                 </div>
-        </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <p>Jam</p>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <p>Menit</p>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span>
+                    <p>Detik</p>
+                </div>
+            </div>
 
-        <div class="card-footer">
-            <p>Terima Kasih</p>
-        </div>
+            <div class="event-details animated-section">
+                <div class="event-section">
+                    <h3>Akad Nikah</h3>
+                    <p><i class="fa-solid fa-calendar-days"></i>Sabtu, 21 Desember 2025</p>
+                    <p><i class="fa-solid fa-clock"></i>09:00 - 10:00 WIB</p>
+                    <p><i class="fa-solid fa-map-marker-alt"></i>Masjid Istiqlal, Jakarta</p>
+                </div>
+                <div class="event-section">
+                    <h3>Resepsi</h3>
+                    <p><i class="fa-solid fa-calendar-check"></i>Sabtu, 21 Desember 2025</p>
+                    <p><i class="fa-solid fa-clock"></i>11:00 - 14:00 WIB</p>
+                    <p><i class="fa-solid fa-map-marked-alt"></i>Gedung Balai Kartini, Jakarta</p>
+                </div>
+            </div>
 
+            <div class="quote-section animated-section">
+                <p>
+                    "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+                    <br><strong>(QS. Ar-Rum: 21)</strong>
+                </p>
+            </div>
+            
+            <div class="guestbook-section animated-section">
+                <h2 class="section-title">Kirim Ucapan & Doa</h2>
+                <form id="guestbook-form">
+                    <input type="text" id="guest-name" placeholder="Nama Anda" required>
+                    <textarea id="guest-message" rows="4" placeholder="Tulis ucapan Anda di sini..." required></textarea>
+                    
+                    <div id="rsvp-options">
+                        <label>
+                            <input type="radio" name="rsvp" value="attending" required> Hadir
+                        </label>
+                        <label>
+                            <input type="radio" name="rsvp" value="not-attending"> Tidak Hadir
+                        </label>
+                    </div>
+
+                    <button type="submit">Kirim Ucapan</button>
+                </form>
+                <div id="wishes-list">
+                    </div>
+            </div>
+
+            <div class="gift-section animated-section">
+                <h2 class="section-title">Kirim Kado</h2>
+                <p>Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara digital.</p>
+                <div class="gift-box">
+                    <i class="fa-solid fa-gift fa-2x" style="color: var(--color-gold);"></i>
+                    <h4>Bank Central Asia</h4>
+                    <p id="account-number">1234567890</p>
+                    <p>a.n. Fulan bin Fulan</p>
+                    <button id="copy-button"><i class="fa-solid fa-copy"></i> Salin No. Rek</button>
+                </div>
+            </div>
+
+            <div class="card-footer animated-section">
+                <p>Terima Kasih</p>
+            </div>
+        </div>
+    </div>
+    
+    <audio id="background-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-betterdays.mp3" type="audio/mpeg">
+        </audio>
+    <div id="music-control" class="playing">
+        <i class="fa-solid fa-music"></i>
     </div>
 
     <script>
-        // JavaScript untuk bagian interaktif (Buku Tamu)
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('guestbook-form');
-            const wishesList = document.getElementById('wishes-list');
+    document.addEventListener('DOMContentLoaded', function() {
+        const coverPage = document.getElementById('cover-page');
+        const openButton = document.getElementById('open-invitation-btn');
+        const mainContent = document.querySelector('.card');
+        const audio = document.getElementById('background-music');
+        const musicControl = document.getElementById('music-control');
 
-            // Fungsi untuk menampilkan ucapan dari Local Storage saat halaman dimuat
-            function loadWishes() {
-                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-                wishes.forEach(wish => addWishToDOM(wish.name, wish.message));
-            }
-
-            // Fungsi untuk menyimpan ucapan ke Local Storage
-            function saveWish(name, message) {
-                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-                wishes.push({ name, message });
-                localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-            }
+        // --- 1. Cover & Music Logic ---
+        openButton.addEventListener('click', function() {
+            coverPage.classList.add('hidden');
+            mainContent.classList.add('visible');
             
-            // Fungsi untuk menambahkan kartu ucapan ke halaman
-            function addWishToDOM(name, message) {
-                const wishCard = document.createElement('div');
-                wishCard.className = 'wish-card';
+            // Autoplay music after user interaction
+            audio.play().catch(error => {
+                console.log("Autoplay was prevented. User needs to interact with the page first.");
+            });
+            musicControl.classList.add('playing');
+        });
 
-                const senderName = document.createElement('p');
-                senderName.className = 'sender-name';
-                senderName.textContent = name;
-
-                const messageText = document.createElement('p');
-                messageText.className = 'message-text';
-                messageText.textContent = message;
-
-                wishCard.appendChild(senderName);
-                wishCard.appendChild(messageText);
-
-                // Menambahkan ucapan baru di paling atas
-                wishesList.prepend(wishCard);
+        musicControl.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+                musicControl.classList.add('playing');
+                musicControl.innerHTML = '<i class="fa-solid fa-music"></i>';
+            } else {
+                audio.pause();
+                musicControl.classList.remove('playing');
+                musicControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
             }
+        });
 
-            form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Mencegah form reload halaman
+        // --- 2. Countdown Timer Logic ---
+        const countdownDate = new Date("Dec 21, 2025 09:00:00").getTime();
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
 
-                const guestNameInput = document.getElementById('guest-name');
-                const guestMessageInput = document.getElementById('guest-message');
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                const name = guestNameInput.value.trim();
-                const message = guestMessageInput.value.trim();
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
 
-                if (name && message) {
-                    // Tambahkan ke DOM
-                    addWishToDOM(name, message);
-                    // Simpan ke Local Storage
-                    saveWish(name, message);
-                    
-                    // Kosongkan form setelah dikirim
-                    form.reset();
-                } else {
-                    alert('Nama dan ucapan tidak boleh kosong!');
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "<p>Acara Telah Berlangsung</p>";
+            }
+        }, 1000);
+
+        // --- 3. Scroll Animation Logic ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
                 }
             });
-
-            // Muat ucapan yang sudah ada saat halaman dibuka
-            loadWishes();
+        }, {
+            threshold: 0.1
         });
-    </script>
 
+        const sections = document.querySelectorAll('.animated-section');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- 4. Guestbook & RSVP Logic ---
+        const form = document.getElementById('guestbook-form');
+        const wishesList = document.getElementById('wishes-list');
+        const storageKey = 'weddingWishes_FulanFulanah';
+
+        function loadWishes() {
+            const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
+            wishes.forEach(wish => addWishToDOM(wish.name, wish.message, wish.rsvp));
+        }
+
+        function saveWish(name, message, rsvp) {
+            const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
+            wishes.push({ name, message, rsvp });
+            localStorage.setItem(storageKey, JSON.stringify(wishes));
+        }
+        
+        function addWishToDOM(name, message, rsvp) {
+            const wishCard = document.createElement('div');
+            wishCard.className = 'wish-card';
+
+            const senderInfo = document.createElement('div');
+            senderInfo.className = 'sender-info';
+
+            const senderName = document.createElement('p');
+            senderName.className = 'sender-name';
+            senderName.textContent = name;
+
+            const rsvpStatus = document.createElement('span');
+            rsvpStatus.className = 'rsvp-status';
+            if (rsvp === 'attending') {
+                rsvpStatus.textContent = 'Hadir';
+                rsvpStatus.classList.add('attending');
+            } else {
+                rsvpStatus.textContent = 'Tidak Hadir';
+                rsvpStatus.classList.add('not-attending');
+            }
+            
+            senderInfo.appendChild(senderName);
+            senderInfo.appendChild(rsvpStatus);
+
+            const messageText = document.createElement('p');
+            messageText.className = 'message-text';
+            messageText.textContent = message;
+
+            wishCard.appendChild(senderInfo);
+            wishCard.appendChild(messageText);
+
+            wishesList.prepend(wishCard);
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const guestNameInput = document.getElementById('guest-name');
+            const guestMessageInput = document.getElementById('guest-message');
+            const rsvpInput = document.querySelector('input[name="rsvp"]:checked');
+
+            const name = guestNameInput.value.trim();
+            const message = guestMessageInput.value.trim();
+            const rsvp = rsvpInput ? rsvpInput.value : null;
+
+            if (name && message && rsvp) {
+                addWishToDOM(name, message, rsvp);
+                saveWish(name, message, rsvp);
+                form.reset();
+            } else {
+                alert('Nama, ucapan, dan konfirmasi kehadiran tidak boleh kosong!');
+            }
+        });
+
+        loadWishes();
+
+        // --- 5. Copy to Clipboard Logic ---
+        const copyButton = document.getElementById('copy-button');
+        const accountNumber = document.getElementById('account-number').innerText;
+
+        copyButton.addEventListener('click', function() {
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                copyButton.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin!';
+                setTimeout(() => {
+                    copyButton.innerHTML = '<i class="fa-solid fa-copy"></i> Salin No. Rek';
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+            });
+        });
+    });
+    </script>
 </body>
 </html>
