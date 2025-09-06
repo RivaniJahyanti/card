@@ -1,323 +1,66 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan - Fulan & Fulanah</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <style>
-        /* --- STYLES GLOBAL --- */
-        :root {
-            --color-gold: #C0A062;
-            --color-dark-brown: #3E2723;
-            --color-cream: #FDF8F0;
-            --font-heading: 'Playfair Display', serif;
-            --font-script: 'Great Vibes', cursive;
-            --font-body: 'Montserrat', sans-serif;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-body);
-            transition: background-color 1s ease;
-        }
-
-        /* --- STYLES UNTUK INTRO BUKU 3D --- */
-        #intro-body-style {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #4d3a34 0%, #291e1c 100%);
-            overflow: hidden;
-        }
-        
-        .intro-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        
-        .book-scene { width: 300px; height: 420px; perspective: 1500px; }
-        .book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-        .book.closed { transform: rotateY(-30deg) scale(0.8); }
-        .book.open { transform: rotateY(0deg) scale(1); }
-        .book-cover, .book-page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; border-radius: 5px; }
-        .book-cover { transform-origin: left; transform-style: preserve-3d; transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); cursor: pointer; }
-        .book.open .book-cover { transform: rotateY(-170deg); }
-        .cover-front, .cover-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--color-cream); border-radius: 5px; }
-        .cover-front { background-color: var(--color-dark-brown); border: 3px solid var(--color-gold); box-shadow: inset 0 0 15px rgba(0,0,0,0.4); transform: rotateY(0deg); }
-        .cover-front h2 { font-family: var(--font-heading); font-size: 2rem; margin: 0; border-bottom: 2px solid var(--color-gold); padding-bottom: 10px; }
-        .cover-front p { font-family: var(--font-script); font-size: 2.5rem; margin-top: 20px; color: var(--color-gold); }
-        .cover-back { background-color: #5a3e36; transform: rotateY(180deg); }
-        .book-page { background-color: var(--color-cream); color: var(--color-dark-brown); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; box-shadow: 0 5px 20px rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.5s ease-in 1.2s; }
-        .book.open .book-page { opacity: 1; }
-        .book-page h3 { font-family: var(--font-heading); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .book-page h1 { font-family: var(--font-script); font-size: 3rem; color: var(--color-gold); margin: 10px 0; line-height: 1.2; }
-        .book-page p { font-size: 0.9rem; font-style: italic; }
-        .open-button { position: fixed; bottom: 15%; padding: 12px 30px; background-color: var(--color-gold); color: white; border: none; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-weight: bold; cursor: pointer; transform: translateY(20px); opacity: 0; transition: opacity 0.8s ease 2s, transform 0.8s ease 2s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .book.open ~ .open-button { opacity: 1; transform: translateY(0); }
-
-        /* --- STYLES UNTUK KARTU UNDANGAN UTAMA --- */
-        #main-invitation-body-style {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0e8e0;
-            padding: 20px;
-            box-sizing: border-box;
-            min-height: 100vh;
-        }
-
-        #main-invitation {
-            opacity: 0;
-            transition: opacity 1.5s ease-in;
-        }
-
-        .card { background-color: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; text-align: center; overflow: hidden; border: 1px solid #ddd; }
-        .card-header { padding: 30px; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
-        .card-header h1.title { font-family: var(--font-script); font-size: 3rem; color: #BFA05B; margin: 0; }
-        .slideshow-container { position: relative; max-width: 100%; margin: 20px auto; border-radius: 50%; overflow: hidden; width: 250px; height: 250px; border: 5px solid #BFA05B; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; }
-        .prev, .next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -22px; color: white; font-weight: bold; font-size: 18px; transition: 0.6s ease; border-radius: 0 3px 3px 0; user-select: none; background-color: rgba(0,0,0,0.5); z-index: 10; }
-        .next { right: 0; border-radius: 3px 0 0 3px; }
-        .prev:hover, .next:hover { background-color: rgba(0,0,0,0.8); }
-        .dots-container { text-align: center; margin-top: 10px; }
-        .dot { cursor: pointer; height: 10px; width: 10px; margin: 0 2px; background-color: #bbb; border-radius: 50%; display: inline-block; transition: background-color 0.6s ease; }
-        .dot.active, .dot:hover { background-color: #BFA05B; }
-        .couple-names { font-family: var(--font-script); font-size: 2.5rem; color: #333; margin: 20px 0 10px 0; }
-        .invitation-text { font-size: 0.9rem; padding: 0 20px; line-height: 1.6; }
-        .event-details { display: flex; justify-content: space-around; padding: 30px 20px; background-color: #f9f9f9; flex-wrap: wrap; gap: 20px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-        .event-section { flex: 1; min-width: 200px; }
-        .event-section h3 { font-family: var(--font-body); font-weight: 700; color: #BFA05B; font-size: 1.5rem; margin-bottom: 15px; }
-        .event-section p { margin: 10px 0; font-size: 0.95rem; line-height: 1.5; }
-        .event-section i { color: #BFA05B; margin-right: 10px; width: 20px; }
-        .quote-section { padding: 30px; font-style: italic; color: #666; line-height: 1.7; }
-        .guestbook-section { padding: 30px; background-color: #f9f9f9; }
-        .guestbook-section h2 { font-family: var(--font-body); font-weight: 700; color: #333; margin-bottom: 20px; }
-        #guestbook-form input, #guestbook-form textarea { width: calc(100% - 20px); padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: var(--font-body); }
-        #guestbook-form button { background-color: #BFA05B; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
-        #guestbook-form button:hover { background-color: #a38647; }
-        #wishes-list { margin-top: 30px; text-align: left; }
-        .wish-card { background-color: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #BFA05B; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .wish-card .sender-name { font-weight: bold; margin-bottom: 5px; }
-        .wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; }
-        .card-footer { padding: 20px; font-family: var(--font-script); font-size: 1.8rem; color: #BFA05B; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body id="intro-body-style">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <h1 class="couple-names">[Nama Pengantin 1] & [Nama Pengantin 2]</h1>
+    <p class="date">[Tanggal Pernikahan]</p>
+  </section>
 
-    <div id="intro-scene" class="intro-container">
-        <div class="book-scene">
-            <div id="book" class="book closed">
-                <div class="book-cover">
-                    <div class="cover-front">
-                        <h2>The Wedding of</h2>
-                        <p>F & F</p>
-                    </div>
-                    <div class="cover-back"></div>
-                </div>
-                <div class="book-page">
-                    <h3>You are invited to celebrate</h3>
-                    <h1>Fulan</h1>
-                    <p>&</p>
-                    <h1>Fulanah</h1>
-                </div>
-            </div>
-        </div>
-        <button id="openInvitationButton" class="open-button">Buka Undangan</button>
+  <!-- Countdown -->
+  <section class="countdown">
+    <h2>Menuju Hari Bahagia</h2>
+    <div id="timer">Loading...</div>
+  </section>
+
+  <!-- Detail Acara -->
+  <section class="event">
+    <h2>Detail Acara</h2>
+    <div class="akad">
+      <h3>Akad Nikah</h3>
+      <p>Hari/Tanggal: [Isi]</p>
+      <p>Waktu: [Isi]</p>
+      <p>Tempat: [Isi]</p>
     </div>
-
-    <div id="main-invitation" style="display: none;">
-        <div class="card">
-            <div class="card-header">
-                <h1 class="title">The Wedding Of</h1>
-                
-                <div class="slideshow-container">
-                    <img class="mySlides" src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin 1">
-                    <img class="mySlides" src="https://i.pinimg.com/564x/87/44/2c/87442c65a0b1275294068c818092fb13.jpg" alt="Foto Pengantin 2">
-                    <img class="mySlides" src="https://i.pinimg.com/564x/83/8d/f9/838df9f27c38c0353c44c5f96b6c00d4.jpg" alt="Foto Pengantin 3">
-                    <img class="mySlides" src="https://i.pinimg.com/564x/6c/11/e6/6c11e61b782c5f76f7b949103e994e4d.jpg" alt="Foto Pengantin 4">
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
-                <div class="dots-container">
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
-                    <span class="dot" onclick="currentSlide(4)"></span>
-                </div>
-                
-                <h2 class="couple-names">Fulan &amp; Fulanah</h2>
-                <p class="invitation-text">
-                    Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
-                </p>
-            </div>
-            <div class="event-details">
-                <div class="event-section">
-                    <h3>Akad Nikah</h3>
-                    <p><i class="fa-solid fa-calendar-days"></i>Sabtu, 21 Desember 2025</p>
-                    <p><i class="fa-solid fa-clock"></i>09:00 - 10:00 WIB</p>
-                    <p><i class="fa-solid fa-map-marker-alt"></i>Masjid Istiqlal, Jakarta</p>
-                </div>
-                <div class="event-section">
-                    <h3>Resepsi</h3>
-                    <p><i class="fa-solid fa-calendar-check"></i>Sabtu, 21 Desember 2025</p>
-                    <p><i class="fa-solid fa-clock"></i>11:00 - 14:00 WIB</p>
-                    <p><i class="fa-solid fa-map-marked-alt"></i>Gedung Balai Kartini, Jakarta</p>
-                </div>
-            </div>
-            <div class="quote-section">
-                <p>
-                    "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
-                    <br><strong>(QS. Ar-Rum: 21)</strong>
-                </p>
-            </div>
-            <div class="guestbook-section">
-                <h2>Kirim Ucapan & Doa</h2>
-                <form id="guestbook-form">
-                    <input type="text" id="guest-name" placeholder="Nama Anda" required>
-                    <textarea id="guest-message" rows="4" placeholder="Tulis ucapan Anda di sini..." required></textarea>
-                    <button type="submit">Kirim Ucapan</button>
-                </form>
-                <div id="wishes-list"></div>
-            </div>
-            <div class="card-footer">
-                <p>Terima Kasih</p>
-            </div>
-        </div>
+    <div class="resepsi">
+      <h3>Resepsi</h3>
+      <p>Hari/Tanggal: [Isi]</p>
+      <p>Waktu: [Isi]</p>
+      <p>Tempat: [Isi]</p>
     </div>
+  </section>
 
+  <!-- Galeri Foto -->
+  <section class="gallery">
+    <h2>Galeri Cinta</h2>
+    <div class="photos">
+      <img src="images/foto1.jpg" alt="Foto 1">
+      <img src="images/foto2.jpg" alt="Foto 2">
+      <img src="images/foto3.jpg" alt="Foto 3">
+    </div>
+  </section>
 
-    <script>
-    // --- VARIABEL GLOBAL ---
-    let slideIndex = 1;
-    let slideTimer;
+  <!-- Lokasi -->
+  <section class="location">
+    <h2>Lokasi Acara</h2>
+    <p>Klik tombol di bawah untuk membuka Google Maps:</p>
+    <a class="btn" href="[link google maps]" target="_blank">📍 Buka Maps</a>
+  </section>
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- LOGIKA UNTUK INTRO ---
-        const book = document.getElementById('book');
-        const openInvitationButton = document.getElementById('openInvitationButton');
-        const introScene = document.getElementById('intro-scene');
-        const mainInvitation = document.getElementById('main-invitation');
-        const body = document.body;
+  <!-- Penutup -->
+  <section class="closing">
+    <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+    <p class="thankyou">Terima kasih</p>
+  </section>
 
-        setTimeout(() => {
-            book.classList.remove('closed');
-            book.classList.add('open');
-        }, 1000);
-
-        openInvitationButton.addEventListener('click', function() {
-            introScene.style.opacity = '0';
-            introScene.style.transform = 'scale(1.2)';
-
-            setTimeout(() => {
-                introScene.style.display = 'none';
-                body.removeAttribute('id'); // Hapus style khusus intro dari body
-                body.id = 'main-invitation-body-style'; // Tambah style untuk undangan utama
-                
-                mainInvitation.style.display = 'block';
-                setTimeout(() => { mainInvitation.style.opacity = '1'; }, 100); // Trigger fade-in
-
-                // Mulai slideshow setelah undangan ditampilkan
-                showSlides(slideIndex);
-                startAutoSlide();
-            }, 1000); 
-        });
-
-
-        // --- LOGIKA UNTUK BUKU TAMU (GUESTBOOK) ---
-        const form = document.getElementById('guestbook-form');
-        const wishesList = document.getElementById('wishes-list');
-
-        function loadWishes() {
-            const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-            wishes.reverse().forEach(wish => addWishToDOM(wish.name, wish.message));
-        }
-
-        function saveWish(name, message) {
-            const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-            wishes.push({ name, message });
-            localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-        }
-        
-        function addWishToDOM(name, message) {
-            const wishCard = document.createElement('div');
-            wishCard.className = 'wish-card';
-            wishCard.innerHTML = `<p class="sender-name">${name}</p><p class="message-text">${message}</p>`;
-            wishesList.prepend(wishCard);
-        }
-
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const guestNameInput = document.getElementById('guest-name');
-            const guestMessageInput = document.getElementById('guest-message');
-            const name = guestNameInput.value.trim();
-            const message = guestMessageInput.value.trim();
-
-            if (name && message) {
-                addWishToDOM(name, message);
-                saveWish(name, message);
-                form.reset();
-            } else {
-                alert('Nama dan ucapan tidak boleh kosong!');
-            }
-        });
-
-        loadWishes();
-    });
-
-
-    // --- FUNGSI UNTUK SLIDESHOW ---
-    function plusSlides(n) {
-        clearTimeout(slideTimer);
-        showSlides(slideIndex += n);
-        startAutoSlide();
-    }
-
-    function currentSlide(n) {
-        clearTimeout(slideTimer);
-        showSlides(slideIndex = n);
-        startAutoSlide();
-    }
-
-    function showSlides(n) {
-        let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("dot");
-        if (slides.length === 0) return; // Jangan jalankan jika elemen belum ada
-        if (n > slides.length) { slideIndex = 1; }
-        if (n < 1) { slideIndex = slides.length; }
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (let i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-    }
-
-    function startAutoSlide() {
-        clearTimeout(slideTimer);
-        slideTimer = setTimeout(function() {
-            plusSlides(1);
-        }, 5000); // Ganti gambar setiap 5 detik
-    }
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
