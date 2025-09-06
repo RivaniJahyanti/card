@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Fulan & Fulanah</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* CSS untuk Styling Halaman */
+        :root {
+            --color-gold: #BFA05B;
+            --color-dark: #333;
+            --color-light: #f9f9f9;
+            --font-heading: 'Great Vibes', cursive;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: #f0e8e0; /* Warna latar belakang lembut */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--color-dark);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .card-header {
+            padding: 30px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        }
+        
+        .card-header h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--color-gold);
+            margin: 0;
+        }
+
+        .couple-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--color-gold);
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .couple-names {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--color-dark);
+            margin: 20px 0 10px 0;
+        }
+
+        .invitation-text {
+            font-size: 0.9rem;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+
+        .event-details {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 20px;
+            background-color: var(--color-light);
+            flex-wrap: wrap;
+            gap: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .event-section {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .event-section h3 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            color: var(--color-gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .event-section p {
+            margin: 10px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .event-section i {
+            color: var(--color-gold);
+            margin-right: 10px;
+            width: 20px; /* Agar ikon sejajar */
+        }
+
+        .quote-section {
+            padding: 30px;
+            font-style: italic;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .guestbook-section {
+            padding: 30px;
+            background-color: var(--color-light);
+        }
+
+        .guestbook-section h2 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            color: var(--color-dark);
+            margin-bottom: 20px;
+        }
+
+        #guestbook-form input,
+        #guestbook-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: var(--font-body);
+        }
+
+        #guestbook-form button {
+            background-color: var(--color-gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #guestbook-form button:hover {
+            background-color: #a38647;
+        }
+
+        #wishes-list {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .wish-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--color-gold);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .wish-card .sender-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .wish-card .message-text {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .card-footer {
+            padding: 20px;
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-gold);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <h1>The Wedding Of</h1>
+            
+            <img src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin" class="couple-photo">
+            
+            <h2 class="couple-names">Fulan &amp; Fulanah</h2>
+
+            <p class="invitation-text">
+                Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
+            </p>
+        </div>
+
+        <div class="event-details">
+            <div class="event-section">
+                <h3>Akad Nikah</h3>
+                <p><i class="fa-solid fa-calendar-days"></i>Sabtu, 21 Desember 2025</p>
+                <p><i class="fa-solid fa-clock"></i>09:00 - 10:00 WIB</p>
+                <p><i class="fa-solid fa-map-marker-alt"></i>Masjid Istiqlal, Jakarta</p>
+            </div>
+            <div class="event-section">
+                <h3>Resepsi</h3>
+                <p><i class="fa-solid fa-calendar-check"></i>Sabtu, 21 Desember 2025</p>
+                <p><i class="fa-solid fa-clock"></i>11:00 - 14:00 WIB</p>
+                <p><i class="fa-solid fa-map-marked-alt"></i>Gedung Balai Kartini, Jakarta</p>
+            </div>
+        </div>
+
+        <div class="quote-section">
+            <p>
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+                <br><strong>(QS. Ar-Rum: 21)</strong>
+            </p>
+        </div>
+        
+        <div class="guestbook-section">
+            <h2>Kirim Ucapan & Doa</h2>
+            <form id="guestbook-form">
+                <input type="text" id="guest-name" placeholder="Nama Anda" required>
+                <textarea id="guest-message" rows="4" placeholder="Tulis ucapan Anda di sini..." required></textarea>
+                <button type="submit">Kirim Ucapan</button>
+            </form>
+            <div id="wishes-list">
+                </div>
+        </div>
+
+        <div class="card-footer">
+            <p>Terima Kasih</p>
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript untuk bagian interaktif (Buku Tamu)
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('guestbook-form');
+            const wishesList = document.getElementById('wishes-list');
+
+            // Fungsi untuk menampilkan ucapan dari Local Storage saat halaman dimuat
+            function loadWishes() {
+                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+                wishes.forEach(wish => addWishToDOM(wish.name, wish.message));
+            }
+
+            // Fungsi untuk menyimpan ucapan ke Local Storage
+            function saveWish(name, message) {
+                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+                wishes.push({ name, message });
+                localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+            }
+            
+            // Fungsi untuk menambahkan kartu ucapan ke halaman
+            function addWishToDOM(name, message) {
+                const wishCard = document.createElement('div');
+                wishCard.className = 'wish-card';
+
+                const senderName = document.createElement('p');
+                senderName.className = 'sender-name';
+                senderName.textContent = name;
+
+                const messageText = document.createElement('p');
+                messageText.className = 'message-text';
+                messageText.textContent = message;
+
+                wishCard.appendChild(senderName);
+                wishCard.appendChild(messageText);
+
+                // Menambahkan ucapan baru di paling atas
+                wishesList.prepend(wishCard);
+            }
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Mencegah form reload halaman
+
+                const guestNameInput = document.getElementById('guest-name');
+                const guestMessageInput = document.getElementById('guest-message');
+
+                const name = guestNameInput.value.trim();
+                const message = guestMessageInput.value.trim();
+
+                if (name && message) {
+                    // Tambahkan ke DOM
+                    addWishToDOM(name, message);
+                    // Simpan ke Local Storage
+                    saveWish(name, message);
+                    
+                    // Kosongkan form setelah dikirim
+                    form.reset();
+                } else {
+                    alert('Nama dan ucapan tidak boleh kosong!');
+                }
+            });
+
+            // Muat ucapan yang sudah ada saat halaman dibuka
+            loadWishes();
+        });
+    </script>
+
+</body>
+</html>
