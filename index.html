@@ -1,66 +1,84 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Undangan Pernikahan</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan | Fulan & Fulanah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="overlay"></div>
-    <h1 class="couple-names">[Nama Pengantin 1] & [Nama Pengantin 2]</h1>
-    <p class="date">[Tanggal Pernikahan]</p>
-  </section>
+<div class="container">
 
-  <!-- Countdown -->
-  <section class="countdown">
-    <h2>Menuju Hari Bahagia</h2>
-    <div id="timer">Loading...</div>
-  </section>
+    <section class="hero">
+        <div class="overlay"></div>
+        <h1 class="couple-names">Fulan &amp; Fulanah</h1>
+        <p class="date">21 Desember 2025</p>
+    </section>
 
-  <!-- Detail Acara -->
-  <section class="event">
-    <h2>Detail Acara</h2>
-    <div class="akad">
-      <h3>Akad Nikah</h3>
-      <p>Hari/Tanggal: [Isi]</p>
-      <p>Waktu: [Isi]</p>
-      <p>Tempat: [Isi]</p>
-    </div>
-    <div class="resepsi">
-      <h3>Resepsi</h3>
-      <p>Hari/Tanggal: [Isi]</p>
-      <p>Waktu: [Isi]</p>
-      <p>Tempat: [Isi]</p>
-    </div>
-  </section>
+    <section class="countdown reveal">
+        <h2>Menuju Hari Bahagia</h2>
+        <div id="timer">
+            <div class="time-box">
+                <span id="days">00</span>
+                <small>Hari</small>
+            </div>
+            <div class="time-box">
+                <span id="hours">00</span>
+                <small>Jam</small>
+            </div>
+            <div class="time-box">
+                <span id="minutes">00</span>
+                <small>Menit</small>
+            </div>
+            <div class="time-box">
+                <span id="seconds">00</span>
+                <small>Detik</small>
+            </div>
+        </div>
+    </section>
 
-  <!-- Galeri Foto -->
-  <section class="gallery">
-    <h2>Galeri Cinta</h2>
-    <div class="photos">
-      <img src="images/foto1.jpg" alt="Foto 1">
-      <img src="images/foto2.jpg" alt="Foto 2">
-      <img src="images/foto3.jpg" alt="Foto 3">
-    </div>
-  </section>
+    <section class="event reveal">
+        <h2>Detail Acara</h2>
+        <div class="event-wrapper">
+            <div class="akad">
+                <h3>Akad Nikah</h3>
+                <p><strong>Hari/Tanggal:</strong> Sabtu, 21 Desember 2025</p>
+                <p><strong>Waktu:</strong> 09:00 - 10:00 WIB</p>
+                <p><strong>Tempat:</strong> Masjid Istiqlal, Jakarta</p>
+            </div>
+            <div class="resepsi">
+                <h3>Resepsi</h3>
+                <p><strong>Hari/Tanggal:</strong> Sabtu, 21 Desember 2025</p>
+                <p><strong>Waktu:</strong> 11:00 - 14:00 WIB</p>
+                <p><strong>Tempat:</strong> Gedung Balai Kartini, Jakarta</p>
+            </div>
+        </div>
+    </section>
 
-  <!-- Lokasi -->
-  <section class="location">
-    <h2>Lokasi Acara</h2>
-    <p>Klik tombol di bawah untuk membuka Google Maps:</p>
-    <a class="btn" href="[link google maps]" target="_blank">📍 Buka Maps</a>
-  </section>
+    <section class="gallery reveal">
+        <h2>Galeri Cinta</h2>
+        <div class="photos">
+            <img src="https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Foto 1">
+            <img src="https://images.pexels.com/photos/3783725/pexels-photo-3783725.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Foto 2">
+            <img src="https://images.pexels.com/photos/1683556/pexels-photo-1683556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Foto 3">
+        </div>
+    </section>
 
-  <!-- Penutup -->
-  <section class="closing">
-    <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
-    <p class="thankyou">Terima kasih</p>
-  </section>
+    <section class="location reveal">
+        <h2>Lokasi Acara</h2>
+        <p>Klik tombol di bawah untuk membuka Google Maps:</p>
+        <a class="btn" href="https://maps.app.goo.gl/example" target="_blank">📍 Buka Maps</a>
+    </section>
 
-  <script src="script.js"></script>
+    <section class="closing reveal">
+        <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+        <p class="thankyou">Terima kasih</p>
+    </section>
+
+</div> <script src="script.js"></script>
 </body>
 </html>
