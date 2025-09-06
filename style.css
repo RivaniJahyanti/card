@@ -1,0 +1,75 @@
+/* Reset */
+body, h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: #fafafa;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Hero */
+.hero {
+  background: url('images/background.jpg') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  color: white;
+}
+
+.hero .overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+}
+
+.couple-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  z-index: 1;
+}
+
+.date {
+  font-size: 1.2rem;
+  z-index: 1;
+}
+
+/* Section umum */
+section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.gallery .photos {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.gallery img {
+  width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn {
+  display: inline-block;
+  background: #d4af37; /* gold */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #b8860b;
+}
