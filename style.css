@@ -24,9 +24,9 @@ body.dark-mode {
     --shadow-heavy: 0 5px 15px rgba(0,0,0,0.4);
 }
 
-/* --- Global Reset & Fondasi Responsif --- */
+/* --- [PENTING] Global Reset & Fondasi Responsif --- */
 *, *::before, *::after {
-    box-sizing: border-box;
+    box-sizing: border-box; /* Mencegah padding dan border merusak layout */
 }
 
 html {
@@ -39,7 +39,7 @@ body {
     margin: 0;
     padding: 0;
     color: var(--color-dark);
-    overflow-x: hidden;
+    overflow-x: hidden; /* Wajib untuk mencegah scroll horizontal */
     transition: background-color 0.5s, color 0.5s;
 }
 
@@ -70,6 +70,7 @@ body {
 #cover-page.hidden { opacity: 0; visibility: hidden; }
 #cover-page h1 {
     font-family: var(--font-heading);
+    /* [DISEMPURNAKAN] Ukuran font kini fleksibel */
     font-size: clamp(2.8rem, 10vw, 4rem);
     margin: 10px 0;
     color: var(--color-gold); font-weight: normal; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
@@ -92,7 +93,7 @@ body {
 #main-content {
     display: flex; justify-content: center; align-items: center;
     min-height: 100vh;
-    padding: 40px 15px;
+    padding: 40px 15px; /* Padding lebih kecil di layar HP */
 }
 .card {
     background-color: var(--background-card);
@@ -113,7 +114,7 @@ body {
 .section-title {
     font-family: var(--font-body); font-weight: 700;
     color: var(--color-dark); margin-bottom: 25px;
-    font-size: clamp(1.6rem, 6vw, 1.8rem);
+    font-size: clamp(1.6rem, 6vw, 1.8rem); /* Font responsif */
 }
 .section-subtitle {
     font-size: 0.95rem; color: var(--color-text-muted); margin-top: -20px; margin-bottom: 30px;
@@ -160,70 +161,41 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 }
 .countdown-item p { font-size: 0.7rem; margin: 0; text-transform: uppercase; }
 
-/* --- Event Details (Tidak diubah) --- */
+/* --- Event Details --- */
 .event-details {
-    display: flex; 
-    justify-content: center;
+    display: flex; justify-content: center; /* DIUBAH: Jadi center agar simetris saat wrap */
     padding: 40px 20px;
-    background-color: var(--color-light); 
-    flex-wrap: wrap; 
-    gap: 40px;
-    border-top: 1px solid #eee; 
-    transition: background-color 0.5s;
+    background-color: var(--color-light); flex-wrap: wrap; gap: 40px; /* Gap ditambah */
+    border-top: 1px solid #eee; transition: background-color 0.5s;
 }
-.event-section { 
-    flex: 1; 
-    min-width: 250px; 
-}
+.event-section { flex: 1; min-width: 250px; }
 .event-section h3 {
-    font-family: var(--font-heading);
+    font-family: var(--font-heading); /* Font diganti agar lebih elegan */
     font-weight: normal;
     font-size: 2.5rem;
-    color: var(--color-gold); 
-    margin-bottom: 20px;
+    color: var(--color-gold); margin-bottom: 20px;
 }
 .event-section p { 
-    margin: 10px 0; 
-    font-size: 0.95rem; 
-    line-height: 1.6; 
-    display: flex; 
-    align-items: flex-start;
+    margin: 10px 0; font-size: 0.95rem; line-height: 1.6; 
+    display: flex; align-items: flex-start; text-align: left;
 }
+/* [DISEMPURNAKAN] Perataan ikon dan teks agar rapi */
 .event-section p i { 
-    color: var(--color-gold); 
-    margin-right: 12px; 
-    width: 20px; 
-    margin-top: 4px; 
-    text-align: center;
+    color: var(--color-gold); margin-right: 12px; width: 20px; 
+    margin-top: 4px; text-align: center;
 }
-.action-button-group { 
-    display: flex; 
-    gap: 10px; 
-    margin-top: 20px; 
-    justify-content: center; 
-    flex-wrap: wrap;
-}
+.action-button-group { display: flex; gap: 10px; margin-top: 20px; justify-content: center; flex-wrap: wrap;}
 .action-button {
-    background-color: var(--color-gold); 
-    color: white !important; 
-    border: none; 
-    padding: 10px 20px;
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    transition: background-color 0.3s;
-    text-decoration: none; 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 0.9rem;
+    background-color: var(--color-gold); color: white !important; border: none; padding: 10px 20px;
+    border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s;
+    text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem;
 }
 .action-button:hover { background-color: #a38647; }
 .action-button i { margin-right: 8px; }
 
 .quote-section { padding: 40px 20px; font-style: italic; color: var(--color-text-muted); line-height: 1.7; transition: color 0.5s; }
 
-/* --- [DIUBAH] Love Story Section --- */
+/* === [REVISI TOTAL] Love Story Section === */
 .story-section { 
     padding: 40px 15px; 
     background-color: var(--color-light); 
@@ -231,8 +203,9 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 }
 .timeline {
     position: relative;
-    max-width: 700px;
+    max-width: 700px; /* Diberi lebar max */
     margin: 0 auto;
+    /* [BARU] Garis tengah untuk timeline di desktop */
     &::after {
         content: '';
         position: absolute;
@@ -249,7 +222,7 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     padding: 10px 40px;
     position: relative;
     background-color: inherit;
-    width: 50%; /* Lebar tetap 50% untuk kanan-kiri di desktop */
+    width: 50%;
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -261,6 +234,7 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 .timeline-item.left { left: 0; padding-right: 30px; text-align: right; }
 .timeline-item.right { left: 50%; padding-left: 30px; text-align: left;}
 
+/* [BARU] Titik penanda di timeline */
 .timeline-item::after {
     content: '';
     position: absolute;
@@ -282,7 +256,7 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     position: relative;
     border-radius: 8px;
     box-shadow: var(--shadow-light);
-    border-bottom: 4px solid var(--color-gold);
+    border-bottom: 4px solid var(--color-gold); /* Posisi border diubah */
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .timeline-content:hover { 
@@ -293,24 +267,14 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 .timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.2rem; }
 .timeline-content p { font-size: 0.9rem; line-height: 1.6; margin: 0; }
 
-
-/* --- [DIUBAH] Photo Gallery --- */
+/* --- Photo Gallery --- */
 .gallery-section { padding: 40px 20px; }
 .gallery-grid {
-    display: grid;
-    /* [DIUBAH] Selalu 2 kolom */
-    grid-template-columns: repeat(2, 1fr); 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
-    max-width: 400px; /* Batasi lebar agar tidak terlalu besar di desktop */
-    margin: 0 auto; /* Tengahkan galeri */
 }
 .gallery-grid img {
-    width: 100%; 
-    height: auto; /* Tinggi otomatis agar gambar tidak terpotong */
-    aspect-ratio: 1 / 1; /* Membuat gambar menjadi persegi */
-    object-fit: cover; 
-    border-radius: 8px; 
-    cursor: pointer;
+    width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .gallery-grid img:hover { transform: scale(1.05); box-shadow: var(--shadow-heavy); }
@@ -363,24 +327,13 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 .wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; word-wrap: break-word; }
 body.dark-mode .wish-card .message-text { color: #ccc; }
 
-/* --- [DIUBAH] Gift Section --- */
+/* --- Gift Section --- */
 .gift-section { padding: 40px 20px; }
-.gift-container { 
-    display: flex; 
-    /* [DIUBAH] Arah ke bawah */
-    flex-direction: column; 
-    align-items: center; /* Menengahkan item */
-    gap: 20px; 
-}
+.gift-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .gift-box {
-    background: var(--background-card); 
-    border: 1px solid #eee; 
-    border-radius: 8px; 
-    padding: 25px;
-    width: 100%; /* Lebar penuh */
-    max-width: 320px; /* Batasi lebar maksimum */
-    transition: background-color 0.5s; 
-    box-shadow: var(--shadow-heavy);
+    background: var(--background-card); border: 1px solid #eee; border-radius: 8px; padding: 25px;
+    flex: 1; min-width: 280px; transition: background-color 0.5s; box-shadow: var(--shadow-heavy);
+    max-width: 320px;
 }
 .gift-box h4 { margin-top: 0; font-weight: 700; color: var(--color-gold); }
 #account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; user-select: all; word-break: break-all; }
@@ -423,39 +376,42 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
 }
 .toast.show { bottom: 80px; }
 
-/* --- Media Queries --- */
+/* --- [PENTING] Media Queries untuk Responsif --- */
+
+/* Untuk Tablet & HP besar (Layar di bawah 768px) */
 @media (max-width: 768px) {
     #main-content {
         padding: 20px 10px;
     }
     
     .event-section p {
-        justify-content: center;
+        justify-content: center; /* Teks dan ikon jadi di tengah */
         text-align: center;
     }
 
-    /* [DIUBAH] Kisah Cinta di Mobile jadi satu kolom rapi */
+    /* [REVISI] Tampilan timeline di mobile */
     .timeline::after {
-        left: 20px; 
+        left: 20px; /* Garisnya pindah ke kiri */
     }
     .timeline-item {
         width: 100%;
-        padding-left: 50px;
+        padding-left: 50px; /* Beri ruang untuk garis dan titik */
         padding-right: 15px;
     }
     .timeline-item.left, .timeline-item.right {
         left: 0;
-        text-align: left;
+        text-align: left; /* Semua teks rata kiri */
     }
     .timeline-item.left::after, .timeline-item.right::after {
-        left: -10px;
+        left: -10px; /* Titiknya pindah ke kiri */
     }
     
     .toast.show {
-        bottom: 80px;
+        bottom: 80px; /* Posisikan di atas tombol kontrol */
     }
 }
 
+/* Untuk HP dengan layar sangat kecil (di bawah 480px) */
 @media (max-width: 480px) {
     .event-details, .guestbook-section, .gift-section, .protocol-section, .gallery-section {
         padding: 30px 15px;
@@ -468,9 +424,5 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
     }
     .action-button {
         width: 100%;
-    }
-    /* [DIUBAH] Galeri di HP kecil tetap 2 kolom tapi lebih kecil */
-    .gallery-grid {
-        gap: 5px;
     }
 }
