@@ -24,9 +24,9 @@ body.dark-mode {
     --shadow-heavy: 0 5px 15px rgba(0,0,0,0.4);
 }
 
-/* --- [PENTING] Global Reset & Fondasi Responsif --- */
+/* --- Global Reset & Fondasi Responsif --- */
 *, *::before, *::after {
-    box-sizing: border-box; /* Mencegah padding dan border merusak layout */
+    box-sizing: border-box;
 }
 
 html {
@@ -39,7 +39,7 @@ body {
     margin: 0;
     padding: 0;
     color: var(--color-dark);
-    overflow-x: hidden; /* Wajib untuk mencegah scroll horizontal */
+    overflow-x: hidden;
     transition: background-color 0.5s, color 0.5s;
 }
 
@@ -70,7 +70,6 @@ body {
 #cover-page.hidden { opacity: 0; visibility: hidden; }
 #cover-page h1 {
     font-family: var(--font-heading);
-    /* [DISEMPURNAKAN] Ukuran font kini fleksibel */
     font-size: clamp(2.8rem, 10vw, 4rem);
     margin: 10px 0;
     color: var(--color-gold); font-weight: normal; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
@@ -93,7 +92,7 @@ body {
 #main-content {
     display: flex; justify-content: center; align-items: center;
     min-height: 100vh;
-    padding: 40px 15px; /* Padding lebih kecil di layar HP */
+    padding: 40px 15px;
 }
 .card {
     background-color: var(--background-card);
@@ -114,7 +113,7 @@ body {
 .section-title {
     font-family: var(--font-body); font-weight: 700;
     color: var(--color-dark); margin-bottom: 25px;
-    font-size: clamp(1.6rem, 6vw, 1.8rem); /* Font responsif */
+    font-size: clamp(1.6rem, 6vw, 1.8rem);
 }
 .section-subtitle {
     font-size: 0.95rem; color: var(--color-text-muted); margin-top: -20px; margin-bottom: 30px;
@@ -161,68 +160,89 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 }
 .countdown-item p { font-size: 0.7rem; margin: 0; text-transform: uppercase; }
 
-/* --- Event Details --- */
+/* --- [DIUBAH] Event Details --- */
 .event-details {
-    display: flex; justify-content: center; /* DIUBAH: Jadi center agar simetris saat wrap */
+    display: flex; 
+    flex-direction: column; /* Membuat item ke bawah */
+    align-items: center; /* Menengahkan item */
     padding: 40px 20px;
-    background-color: var(--color-light); flex-wrap: wrap; gap: 40px; /* Gap ditambah */
-    border-top: 1px solid #eee; transition: background-color 0.5s;
+    background-color: var(--color-light); 
+    gap: 40px;
+    border-top: 1px solid #eee; 
+    transition: background-color 0.5s;
 }
-.event-section { flex: 1; min-width: 250px; }
+.event-section { 
+    width: 100%; /* Lebar item jadi penuh */
+    max-width: 400px; /* Batasi lebar maksimum */
+    min-width: 250px; 
+}
 .event-section h3 {
-    font-family: var(--font-heading); /* Font diganti agar lebih elegan */
+    font-family: var(--font-heading);
     font-weight: normal;
     font-size: 2.5rem;
-    color: var(--color-gold); margin-bottom: 20px;
+    color: var(--color-gold); 
+    margin-bottom: 20px;
 }
 .event-section p { 
-    margin: 10px 0; font-size: 0.95rem; line-height: 1.6; 
-    display: flex; align-items: flex-start; text-align: left;
+    margin: 10px 0; 
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    display: flex; 
+    align-items: flex-start; 
+    justify-content: center; /* Teks dan ikon ke tengah */
+    text-align: left;
 }
-/* [DISEMPURNAKAN] Perataan ikon dan teks agar rapi */
 .event-section p i { 
-    color: var(--color-gold); margin-right: 12px; width: 20px; 
-    margin-top: 4px; text-align: center;
+    color: var(--color-gold); 
+    margin-right: 12px; 
+    width: 20px; 
+    margin-top: 4px; 
+    text-align: center;
 }
-.action-button-group { display: flex; gap: 10px; margin-top: 20px; justify-content: center; flex-wrap: wrap;}
+.action-button-group { 
+    display: flex; 
+    gap: 10px; 
+    margin-top: 20px; 
+    justify-content: center; 
+    flex-wrap: wrap;
+}
 .action-button {
-    background-color: var(--color-gold); color: white !important; border: none; padding: 10px 20px;
-    border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s;
-    text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem;
+    background-color: var(--color-gold); 
+    color: white !important; 
+    border: none; 
+    padding: 10px 20px;
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    transition: background-color 0.3s;
+    text-decoration: none; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 0.9rem;
 }
 .action-button:hover { background-color: #a38647; }
 .action-button i { margin-right: 8px; }
 
 .quote-section { padding: 40px 20px; font-style: italic; color: var(--color-text-muted); line-height: 1.7; transition: color 0.5s; }
 
-/* === [REVISI TOTAL] Love Story Section === */
+/* --- [DIUBAH] Love Story Section --- */
 .story-section { 
     padding: 40px 15px; 
     background-color: var(--color-light); 
     transition: background-color 0.5s; 
 }
 .timeline {
-    position: relative;
-    max-width: 700px; /* Diberi lebar max */
-    margin: 0 auto;
-    /* [BARU] Garis tengah untuk timeline di desktop */
-    &::after {
-        content: '';
-        position: absolute;
-        width: 4px;
-        background-color: var(--color-gold);
-        opacity: 0.3;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        margin-left: -2px;
-    }
+    display: flex; /* Menggunakan flexbox */
+    flex-direction: column; /* Arah item ke bawah */
+    align-items: center; /* Menengahkan semua item */
+    gap: 20px; /* Jarak antar item */
 }
 .timeline-item {
-    padding: 10px 40px;
+    padding: 0; /* Hapus padding lama */
     position: relative;
-    background-color: inherit;
-    width: 50%;
+    width: 100%; /* Lebar item jadi penuh */
+    max-width: 450px; /* Batasi lebar maksimum */
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -231,41 +251,39 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     opacity: 1;
     transform: translateY(0);
 }
-.timeline-item.left { left: 0; padding-right: 30px; text-align: right; }
-.timeline-item.right { left: 50%; padding-left: 30px; text-align: left;}
-
-/* [BARU] Titik penanda di timeline */
-.timeline-item::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    right: -10px;
-    background-color: var(--background-main);
-    border: 4px solid var(--color-gold);
-    top: 15px;
-    border-radius: 50%;
-    z-index: 1;
-}
-.timeline-item.right::after {
-    left: -10px;
-}
 .timeline-content {
     padding: 20px;
     background-color: var(--background-card);
     position: relative;
     border-radius: 8px;
     box-shadow: var(--shadow-light);
-    border-bottom: 4px solid var(--color-gold); /* Posisi border diubah */
+    border-bottom: 4px solid var(--color-gold);
+    text-align: center; /* Teks selalu di tengah */
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .timeline-content:hover { 
     transform: translateY(-5px); 
     box-shadow: var(--shadow-heavy); 
 }
-.timeline-content .date { font-size: 0.8rem; color: var(--color-gold); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
-.timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.2rem; }
-.timeline-content p { font-size: 0.9rem; line-height: 1.6; margin: 0; }
+.timeline-content .date { 
+    font-size: 0.8rem; 
+    color: var(--color-gold); 
+    font-weight: bold; 
+    margin-bottom: 8px; 
+    text-transform: uppercase; 
+}
+.timeline-content h4 { 
+    margin-top: 0; 
+    color: var(--color-dark); 
+    font-weight: 700; 
+    font-size: 1.2rem; 
+}
+.timeline-content p { 
+    font-size: 0.9rem; 
+    line-height: 1.6; 
+    margin: 0; 
+}
+
 
 /* --- Photo Gallery --- */
 .gallery-section { padding: 40px 20px; }
@@ -376,42 +394,7 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
 }
 .toast.show { bottom: 80px; }
 
-/* --- [PENTING] Media Queries untuk Responsif --- */
-
-/* Untuk Tablet & HP besar (Layar di bawah 768px) */
-@media (max-width: 768px) {
-    #main-content {
-        padding: 20px 10px;
-    }
-    
-    .event-section p {
-        justify-content: center; /* Teks dan ikon jadi di tengah */
-        text-align: center;
-    }
-
-    /* [REVISI] Tampilan timeline di mobile */
-    .timeline::after {
-        left: 20px; /* Garisnya pindah ke kiri */
-    }
-    .timeline-item {
-        width: 100%;
-        padding-left: 50px; /* Beri ruang untuk garis dan titik */
-        padding-right: 15px;
-    }
-    .timeline-item.left, .timeline-item.right {
-        left: 0;
-        text-align: left; /* Semua teks rata kiri */
-    }
-    .timeline-item.left::after, .timeline-item.right::after {
-        left: -10px; /* Titiknya pindah ke kiri */
-    }
-    
-    .toast.show {
-        bottom: 80px; /* Posisikan di atas tombol kontrol */
-    }
-}
-
-/* Untuk HP dengan layar sangat kecil (di bawah 480px) */
+/* --- Media Queries (Hanya untuk penyesuaian kecil) --- */
 @media (max-width: 480px) {
     .event-details, .guestbook-section, .gift-section, .protocol-section, .gallery-section {
         padding: 30px 15px;
