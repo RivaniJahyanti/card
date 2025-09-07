@@ -258,6 +258,7 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     box-shadow: var(--shadow-light);
     border-bottom: 4px solid var(--color-gold); /* Posisi border diubah */
     transition: transform 0.3s, box-shadow 0.3s;
+    width: 100%; 
 }
 .timeline-content:hover { 
     transform: translateY(-5px); 
