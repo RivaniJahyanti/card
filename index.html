@@ -18,8 +18,24 @@
             --color-dark: #333;
             --color-light: #f9f9f9;
             --color-green: #506753;
+            --background-main: #f0e8e0;
+            --background-card: white;
+            --color-text-muted: #666;
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 5px 15px rgba(0,0,0,0.15);
             --font-heading: 'Great Vibes', cursive;
             --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* --- Dark Mode Variables --- */
+        body.dark-mode {
+            --color-dark: #f0f0f0;
+            --color-light: #2d2d2d;
+            --background-main: #1a1a1a;
+            --background-card: #252525;
+            --color-text-muted: #aaa;
+            --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 5px 15px rgba(0,0,0,0.4);
         }
 
         /* General Styling */
@@ -29,11 +45,37 @@
 
         body {
             font-family: var(--font-body);
-            background-color: #f0e8e0;
+            background-color: var(--background-main);
             margin: 0;
             padding: 0;
             color: var(--color-dark);
             overflow-x: hidden;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* --- Falling Leaves Animation --- */
+        #leaf-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 99;
+        }
+        .leaf {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: rgba(191, 160, 91, 0.5);
+            border-radius: 50% 0;
+            animation: fall 15s linear infinite;
+            transform: rotate(-20deg);
+        }
+        @keyframes fall {
+            0% { top: -20px; transform: translateX(0) rotate(-20deg); }
+            100% { top: 100vh; transform: translateX(100px) rotate(360deg); opacity: 0; }
         }
 
         /* --- Cover Page --- */
@@ -56,280 +98,169 @@
             transition: opacity 1.5s ease-out, visibility 1.5s;
             padding: 20px;
         }
-
-        #cover-page.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
+        #cover-page.hidden { opacity: 0; visibility: hidden; }
         #cover-page h1 {
             font-family: var(--font-heading);
             font-size: 3.5rem;
             margin: 10px 0;
             color: var(--color-gold);
             font-weight: normal;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
-
-        #cover-page p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-
+        #cover-page p { font-size: 1.1rem; margin-bottom: 15px; }
+        #guest-name-display { font-weight: bold; font-size: 1.2rem; margin-bottom: 30px; }
         #open-invitation-btn {
             background-color: var(--color-gold);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
+            color: white; border: none; padding: 12px 30px; border-radius: 50px;
+            cursor: pointer; font-weight: bold; font-size: 1rem;
             transition: background-color 0.3s, transform 0.3s;
+            animation: pulse 2s infinite;
         }
-
-        #open-invitation-btn:hover {
-            background-color: #a38647;
-            transform: scale(1.05);
+        #open-invitation-btn:hover { background-color: #a38647; transform: scale(1.05); animation-play-state: paused; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(191, 160, 91, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(191, 160, 91, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(191, 160, 91, 0); }
         }
         
         /* --- Main Content --- */
         #main-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 20px; /* Added more padding */
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 40px 20px;
         }
         
         .card {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 700px; /* Wider card */
-            width: 100%;
-            text-align: center;
-            overflow: hidden;
-            border: 1px solid #ddd;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
+            background-color: var(--background-card);
+            border-radius: 15px; box-shadow: var(--shadow-light);
+            max-width: 700px; width: 100%; text-align: center;
+            overflow: hidden; border: 1px solid #ddd;
+            opacity: 0; transform: translateY(20px) scale(0.98);
+            transition: opacity 1s ease, transform 1s ease, background-color 0.5s;
         }
-
-        .card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .card.visible { opacity: 1; transform: translateY(0) scale(1); }
         
-        /* Sections Styling */
+        /* --- Sections Styling --- */
         .animated-section {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 0; transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-
-        .animated-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .animated-section.is-visible { opacity: 1; transform: translateY(0); }
         
         .section-title {
-            font-family: var(--font-body);
-            font-weight: 700;
-            color: var(--color-dark);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
+            font-family: var(--font-body); font-weight: 700;
+            color: var(--color-dark); margin-bottom: 20px; font-size: 1.8rem;
         }
 
-        .card-header {
-            padding: 40px;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-        }
+        .card-header { padding: 40px; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
+        body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 100%); }
         
         .card-header h1 {
-            font-family: var(--font-heading);
-            font-size: 3rem;
-            color: var(--color-gold);
-            margin: 0;
+            font-family: var(--font-heading); font-size: 3rem;
+            color: var(--color-gold); margin: 0;
         }
 
         .couple-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--color-gold);
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 150px; height: 150px; border-radius: 50%;
+            object-fit: cover; border: 5px solid var(--color-gold);
+            margin-top: 20px; box-shadow: var(--shadow-heavy);
         }
 
         .couple-names {
-            font-family: var(--font-heading);
-            font-size: 3.5rem;
-            color: var(--color-dark);
-            margin: 20px 0 10px 0;
+            font-family: var(--font-heading); font-size: 3.5rem;
+            color: var(--color-dark); margin: 20px 0 10px 0;
         }
 
-        .invitation-text {
-            font-size: 0.95rem;
-            padding: 0 20px;
-            line-height: 1.7;
-        }
+        .invitation-text { font-size: 0.95rem; padding: 0 20px; line-height: 1.7; }
 
         /* --- Countdown Timer --- */
         #countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 30px 20px;
-            background-color: var(--color-green);
-            color: white;
+            display: flex; justify-content: center; gap: 15px; padding: 30px 20px;
+            background-color: var(--color-green); color: white;
         }
         .countdown-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            min-width: 60px;
+            display: flex; flex-direction: column; align-items: center;
+            background-color: rgba(255, 255, 255, 0.1); padding: 10px;
+            border-radius: 8px; min-width: 60px;
         }
         .countdown-item span { font-size: 2rem; font-weight: 700; }
         .countdown-item p { font-size: 0.7rem; margin: 0; text-transform: uppercase; }
 
         /* --- Event Details & Map --- */
         .event-details {
-            display: flex;
-            justify-content: space-around;
-            padding: 40px 20px;
-            background-color: var(--color-light);
-            flex-wrap: wrap;
-            gap: 20px;
-            border-top: 1px solid #eee;
+            display: flex; justify-content: space-around; padding: 40px 20px;
+            background-color: var(--color-light); flex-wrap: wrap; gap: 20px;
+            border-top: 1px solid #eee; transition: background-color 0.5s;
         }
         .event-section { flex: 1; min-width: 200px; }
         .event-section h3 {
-            font-family: var(--font-body);
-            font-weight: 700;
-            color: var(--color-gold);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-family: var(--font-body); font-weight: 700;
+            color: var(--color-gold); font-size: 1.5rem; margin-bottom: 15px;
         }
         .event-section p { margin: 10px 0; font-size: 0.95rem; line-height: 1.5; }
         .event-section i { color: var(--color-gold); margin-right: 10px; width: 20px; }
-
-        .map-container {
-            margin-top: 25px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #ddd;
-        }
-        .map-container iframe {
-            width: 100%;
-            height: 250px;
-            border: 0;
-        }
+        .map-container { margin-top: 25px; border-radius: 10px; overflow: hidden; border: 1px solid #ddd; }
+        .map-container iframe { width: 100%; height: 250px; border: 0; }
         .action-button {
-            background-color: var(--color-gold);
-            color: white !important;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            margin-top: 15px;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.9rem;
+            background-color: var(--color-gold); color: white !important; border: none; padding: 10px 20px;
+            border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s;
+            margin-top: 15px; text-decoration: none; display: inline-block; font-size: 0.9rem;
         }
         .action-button:hover { background-color: #a38647; }
         .action-button i { margin-right: 8px; }
 
-        .quote-section { padding: 40px; font-style: italic; color: #666; line-height: 1.7; }
+        .quote-section { padding: 40px; font-style: italic; color: var(--color-text-muted); line-height: 1.7; transition: color 0.5s; }
         
         /* --- Love Story Section --- */
-        .story-section { padding: 40px; background-color: var(--color-light); }
+        .story-section { padding: 40px; background-color: var(--color-light); transition: background-color 0.5s; }
         .timeline { position: relative; max-width: 100%; margin: 0 auto; }
         .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background-color: var(--color-gold);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1.5px;
+            content: ''; position: absolute; width: 3px; background-color: var(--color-gold);
+            top: 0; bottom: 0; left: 50%; margin-left: -1.5px;
         }
         .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; }
         .timeline-item.left { left: 0; }
         .timeline-item.right { left: 50%; }
         .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            right: -8px;
-            background-color: white;
-            border: 4px solid var(--color-gold);
-            top: 22px;
-            border-radius: 50%;
-            z-index: 1;
+            content: ''; position: absolute; width: 16px; height: 16px; right: -8px;
+            background-color: white; border: 4px solid var(--color-gold);
+            top: 22px; border-radius: 50%; z-index: 1;
         }
         .timeline-item.right::after { left: -8px; }
-        .timeline-content { padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .timeline-content {
+            padding: 20px; background-color: var(--background-card); border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s;
+        }
+        .timeline-content:hover { transform: translateY(-5px); box-shadow: var(--shadow-heavy); }
         .timeline-content h4 { margin-top: 0; color: var(--color-gold); }
 
         /* --- Photo Gallery --- */
         .gallery-section { padding: 40px; }
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;
         }
         .gallery-grid img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
+            width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        .gallery-grid img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-        }
+        .gallery-grid img:hover { transform: scale(1.05); box-shadow: var(--shadow-heavy); }
         
         /* Modal (Lightbox) for Gallery */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 101;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; z-index: 101; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85);
+            justify-content: center; align-items: center;
         }
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 80%;
-            max-height: 85vh;
-        }
+        .modal-content { margin: auto; display: block; max-width: 80%; max-height: 85vh; }
         .modal-close {
-            position: absolute;
-            top: 20px; right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
+            position: absolute; top: 20px; right: 35px; color: #f1f1f1;
+            font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer;
         }
         
         /* --- Guestbook & Gift Sections --- */
-        .guestbook-section, .gift-section { padding: 40px; background-color: var(--color-light); border-top: 1px solid #eee; }
-
+        .guestbook-section, .gift-section {
+            padding: 40px; background-color: var(--color-light); border-top: 1px solid #eee;
+            transition: background-color 0.5s;
+        }
         #guestbook-form input, #guestbook-form textarea {
             width: calc(100% - 22px); padding: 12px; margin-bottom: 12px;
             border-radius: 5px; border: 1px solid #ccc; font-family: var(--font-body);
@@ -338,63 +269,79 @@
         #rsvp-options label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
         #guestbook-form button {
             background-color: var(--color-gold); color: white; border: none; padding: 12px 25px;
-            border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s;
+            border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s, opacity 0.3s;
         }
         #guestbook-form button:hover { background-color: #a38647; }
+        #guestbook-form button:disabled { background-color: #ccc; cursor: not-allowed; }
         #wishes-list { margin-top: 30px; text-align: left; max-height: 400px; overflow-y: auto; padding-right: 10px; }
         .wish-card {
-            background-color: white; border-radius: 8px; padding: 15px; margin-bottom: 15px;
+            background-color: var(--background-card); border-radius: 8px; padding: 15px; margin-bottom: 15px;
             border-left: 5px solid var(--color-gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s;
         }
+        .wish-card:hover { transform: translateX(5px); box-shadow: var(--shadow-heavy); }
         .wish-card .sender-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
         .wish-card .sender-name { font-weight: bold; }
         .rsvp-status { font-size: 0.8rem; font-weight: 500; padding: 3px 8px; border-radius: 10px; color: white; }
         .rsvp-status.attending { background-color: var(--color-green); }
         .rsvp-status.not-attending { background-color: #c94c4c; }
         .wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; }
+        body.dark-mode .wish-card .message-text { color: #ccc; }
 
         /* Gift Section */
         .gift-section p { font-size: 0.9rem; line-height: 1.6; }
-        .gift-box { background: white; border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-top: 20px; }
+        .gift-box { background: var(--background-card); border: 1px solid #eee; border-radius: 8px; padding: 20px; margin-top: 20px; transition: background-color 0.5s; }
         .gift-box h4 { margin-top: 0; font-weight: 700; }
         #account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; }
         #copy-button { background: var(--color-dark); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
         #copy-button:hover { background: #555; }
-        
-        /* Gift Confirmation Form */
         #gift-confirmation-form { margin-top: 25px; border-top: 1px dashed #ccc; padding-top: 25px; text-align: left; }
         #gift-confirmation-form h4 { text-align: center; margin-top: 0; }
         #gift-confirmation-form input { width: calc(100% - 24px); padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; }
         #gift-confirmation-form button { display: block; width: 100%; background: var(--color-green); color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         #transfer-proof-preview { max-width: 100px; margin-top: 10px; border-radius: 5px; display: none; }
 
-
         .card-footer { padding: 30px; font-family: var(--font-heading); font-size: 2rem; color: var(--color-gold); }
         
-        /* --- Music Control --- */
-        #music-control {
-            position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; background-color: var(--color-gold);
+        /* --- Floating Controls (Music & Theme) --- */
+        .floating-controls { position: fixed; bottom: 20px; right: 20px; z-index: 99; display: flex; flex-direction: column; gap: 10px; }
+        .control-btn {
+            width: 40px; height: 40px; background-color: var(--color-gold);
             color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 99;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;
         }
+        .control-btn:hover { transform: scale(1.1); }
         #music-control.playing i { animation: spin 3s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background-color: var(--color-dark); color: white; padding: 12px 25px;
+            border-radius: 50px; font-size: 0.9rem; z-index: 110;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out;
+        }
+        .toast.show { bottom: 80px; }
+        
         /* Responsive */
         @media (max-width: 600px) {
             .timeline::after { left: 20px; }
             .timeline-item { width: 100%; padding-left: 60px; padding-right: 15px; }
             .timeline-item.left, .timeline-item.right { left: 0%; }
             .timeline-item::after { left: 12px; }
+            .toast.show { bottom: 130px; } /* Adjust toast position above controls on mobile */
         }
-
     </style>
 </head>
 <body>
 
+    <div id="leaf-container"></div>
+    
     <div id="cover-page">
         <p>THE WEDDING OF</p>
         <h1>Fulan & Fulanah</h1>
+        <p>Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+        <h2 id="guest-name-display">Tamu Undangan</h2>
         <button id="open-invitation-btn"><i class="fa-solid fa-envelope-open"></i> Buka Undangan</button>
     </div>
 
@@ -403,7 +350,7 @@
             <div class="card-header animated-section">
                 <h1>The Wedding Of</h1>
                 <img src="https://i.pinimg.com/564x/a3/52/a7/a352a7ac9c3818eace3926832363ac43.jpg" alt="Foto Pengantin" class="couple-photo">
-                <h2 class="couple-names">Fulan &amp; Fulanah</h2>
+                <h2 class="couple-names">Fulan & Fulanah</h2>
                 <p class="invitation-text">
                     Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.
                 </p>
@@ -435,9 +382,9 @@
                  <div class="event-section" style="flex-basis: 100%;">
                     <h3>Lokasi Resepsi</h3>
                     <div class="map-container">
-                       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2891918236873!2d106.81890631535497!3d-6.22557346269223!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x23ea3e3e23157525!2sBalai%20Kartini!5e0!3m2!1sen!2sid!4v1683533475965!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.307525381396!2d106.8202453153494!3d-6.223067995495038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e4e2d3128b%3A0x51c2a822a498f262!2sBalai%20Kartini!5e0!3m2!1sen!2sid!4v1672648219468!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                     <a href="https://maps.app.goo.gl/k3B7z4rA2Mh2a8Z78" target="_blank" class="action-button">
+                     <a href="https://maps.app.goo.gl/d25Y1f5jW4BwJ11bA" target="_blank" class="action-button">
                         <i class="fa-solid fa-diamond-turn-right"></i> Buka Peta
                     </a>
                 </div>
@@ -496,7 +443,7 @@
                         <label><input type="radio" name="rsvp" value="not-attending"> Tidak Hadir</label>
                     </div>
 
-                    <button type="submit">Kirim Ucapan</button>
+                    <button type="submit" id="submit-wish-btn">Kirim Ucapan</button>
                 </form>
                 <div id="wishes-list"></div>
             </div>
@@ -535,26 +482,56 @@
     <audio id="background-music" loop>
         <source src="https://www.bensound.com/bensound-music/bensound-betterdays.mp3" type="audio/mpeg">
     </audio>
-    <div id="music-control" class="playing">
-        <i class="fa-solid fa-music"></i>
+
+    <div class="floating-controls">
+        <div id="theme-toggle" class="control-btn">
+            <i class="fa-solid fa-moon"></i>
+        </div>
+        <div id="music-control" class="control-btn playing">
+            <i class="fa-solid fa-music"></i>
+        </div>
     </div>
+    
+    <div id="toast-notification" class="toast">Pesan notifikasi</div>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- Element Selections ---
         const coverPage = document.getElementById('cover-page');
         const openButton = document.getElementById('open-invitation-btn');
         const mainContent = document.querySelector('.card');
         const audio = document.getElementById('background-music');
         const musicControl = document.getElementById('music-control');
+        const themeToggle = document.getElementById('theme-toggle');
 
-        // --- 1. Cover & Music Logic ---
+        // --- 0. Initial Setup ---
+        // Create falling leaves
+        const leafContainer = document.getElementById('leaf-container');
+        for (let i = 0; i < 15; i++) {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.left = `${Math.random() * 100}vw`;
+            leaf.style.animationDelay = `${Math.random() * 10}s`;
+            leaf.style.animationDuration = `${5 + Math.random() * 10}s`;
+            leaf.style.opacity = Math.random();
+            leafContainer.appendChild(leaf);
+        }
+
+        // --- 1. Guest Name Personalization ---
+        const guestNameDisplay = document.getElementById('guest-name-display');
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to');
+        if (guestName) {
+            guestNameDisplay.textContent = guestName.replace(/\+/g, ' ');
+        }
+
+        // --- 2. Cover & Music Logic ---
         openButton.addEventListener('click', function() {
             coverPage.classList.add('hidden');
             mainContent.classList.add('visible');
-            
-            document.body.style.overflowY = 'auto'; // Enable scroll after opening
-            
-            audio.play().catch(error => console.log("Autoplay prevented."));
+            document.body.style.overflowY = 'auto';
+            audio.play().catch(error => console.log("Autoplay dicegah oleh browser."));
             musicControl.classList.add('playing');
         });
 
@@ -570,11 +547,27 @@
             }
         });
 
-        // --- 2. Countdown Timer Logic ---
+        // --- 3. Theme Toggle (Dark/Light Mode) ---
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            }
+        });
+
+        // --- 4. Countdown Timer Logic ---
         const countdownDate = new Date("Dec 21, 2025 09:00:00").getTime();
         const countdownFunction = setInterval(function() {
             const now = new Date().getTime();
             const distance = countdownDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "<h4>Acara Telah Berlangsung</h4>";
+                return;
+            }
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -585,14 +578,9 @@
             document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
             document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
             document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
-
-            if (distance < 0) {
-                clearInterval(countdownFunction);
-                document.getElementById("countdown").innerHTML = "<p>Acara Telah Berlangsung</p>";
-            }
         }, 1000);
 
-        // --- 3. Scroll Animation Logic ---
+        // --- 5. Scroll Animation Logic ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -600,13 +588,13 @@
                 }
             });
         }, { threshold: 0.1 });
-
         const sections = document.querySelectorAll('.animated-section');
         sections.forEach(section => observer.observe(section));
 
-        // --- 4. Guestbook & RSVP Logic ---
+        // --- 6. Guestbook & RSVP Logic ---
         const form = document.getElementById('guestbook-form');
         const wishesList = document.getElementById('wishes-list');
+        const submitWishBtn = document.getElementById('submit-wish-btn');
         const storageKey = 'weddingWishes_FulanFulanah';
 
         function loadWishes() {
@@ -616,25 +604,30 @@
 
         function saveWish(name, message, rsvp) {
             const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
-            wishes.unshift({ name, message, rsvp }); // unshift to add to the top
+            wishes.unshift({ name, message, rsvp });
             localStorage.setItem(storageKey, JSON.stringify(wishes));
         }
         
         function addWishToDOM(name, message, rsvp) {
             const wishCard = document.createElement('div');
             wishCard.className = 'wish-card';
-
             const rsvpText = rsvp === 'attending' ? 'Hadir' : 'Tidak Hadir';
             const rsvpClass = rsvp === 'attending' ? 'attending' : 'not-attending';
             
             wishCard.innerHTML = `
                 <div class="sender-info">
-                    <p class="sender-name">${name}</p>
+                    <p class="sender-name">${escapeHTML(name)}</p>
                     <span class="rsvp-status ${rsvpClass}">${rsvpText}</span>
                 </div>
-                <p class="message-text">${message}</p>
+                <p class="message-text">${escapeHTML(message)}</p>
             `;
             wishesList.prepend(wishCard);
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>"']/g, function(match) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
+            });
         }
 
         form.addEventListener('submit', function(event) {
@@ -648,77 +641,82 @@
             const rsvp = rsvpInput ? rsvpInput.value : null;
 
             if (name && message && rsvp) {
-                addWishToDOM(name, message, rsvp);
-                saveWish(name, message, rsvp);
-                form.reset();
+                submitWishBtn.disabled = true;
+                submitWishBtn.textContent = 'Mengirim...';
+                
+                // Simulate server delay
+                setTimeout(() => {
+                    addWishToDOM(name, message, rsvp);
+                    saveWish(name, message, rsvp);
+                    form.reset();
+                    submitWishBtn.disabled = false;
+                    submitWishBtn.textContent = 'Kirim Ucapan';
+                    showToast('Ucapan Anda berhasil dikirim!');
+                }, 1000);
             } else {
-                alert('Nama, ucapan, dan konfirmasi kehadiran tidak boleh kosong!');
+                showToast('Mohon lengkapi semua isian.', 'error');
             }
         });
 
         loadWishes();
 
-        // --- 5. Copy to Clipboard Logic ---
+        // --- 7. Toast Notification ---
+        const toast = document.getElementById('toast-notification');
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.style.backgroundColor = type === 'error' ? '#c94c4c' : 'var(--color-dark)';
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- 8. Copy to Clipboard Logic ---
         const copyButton = document.getElementById('copy-button');
         const accountNumber = document.getElementById('account-number').innerText;
-
         copyButton.addEventListener('click', function() {
             navigator.clipboard.writeText(accountNumber).then(() => {
-                copyButton.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin!';
-                setTimeout(() => {
-                    copyButton.innerHTML = '<i class="fa-solid fa-copy"></i> Salin No. Rek';
-                }, 2000);
-            }).catch(err => console.error('Gagal menyalin: ', err));
+                showToast('Nomor rekening berhasil disalin!');
+            }).catch(err => showToast('Gagal menyalin.', 'error'));
         });
         
-        // --- 6. Photo Gallery Logic ---
+        // --- 9. Photo Gallery Logic ---
         const modal = document.getElementById('gallery-modal');
         const modalImg = document.getElementById('modal-image');
         const galleryImages = document.querySelectorAll('.gallery-item');
         const closeModal = document.querySelector('.modal-close');
-
         galleryImages.forEach(img => {
             img.addEventListener('click', function() {
                 modal.style.display = "flex";
                 modalImg.src = this.src;
             });
         });
+        closeModal.onclick = () => modal.style.display = "none";
+        window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
 
-        closeModal.addEventListener('click', function() {
-            modal.style.display = "none";
-        });
-
-        window.addEventListener('click', function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        });
-
-        // --- 7. Proof of Transfer UI Logic ---
+        // --- 10. Proof of Transfer UI Logic ---
         const confirmationForm = document.getElementById('gift-confirmation-form');
         const proofInput = document.getElementById('transfer-proof');
         const proofPreview = document.getElementById('transfer-proof-preview');
-
         proofInput.addEventListener('change', function() {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = (e) => {
                     proofPreview.src = e.target.result;
                     proofPreview.style.display = 'block';
                 }
                 reader.readAsDataURL(this.files[0]);
             }
         });
-
         confirmationForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const senderName = document.getElementById('sender-name').value;
             if (senderName && proofInput.files.length > 0) {
-                 alert('Terima kasih atas konfirmasinya! (Fitur ini adalah demo. File tidak diunggah ke server.)');
+                 showToast('Terima kasih atas konfirmasinya!');
                  confirmationForm.reset();
                  proofPreview.style.display = 'none';
             } else {
-                alert('Mohon isi nama pengirim dan lampirkan bukti transfer.');
+                showToast('Mohon isi nama dan lampirkan bukti.', 'error');
             }
         });
 
