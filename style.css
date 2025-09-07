@@ -241,6 +241,13 @@ body {
     margin-top: 4px; 
     text-align: center;
 }
+.action-button-group { 
+    display: flex; 
+    gap: 15px; /* <--- INI PERUBAHANNYA */
+    margin-top: 20px; 
+    justify-content: center; 
+    flex-wrap: wrap;
+}
 .action-button {
     background-image: linear-gradient(to right, var(--color-gold), var(--color-gold-darker));
     color: white !important; border: none; padding: 12px 25px;
