@@ -160,20 +160,19 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 }
 .countdown-item p { font-size: 0.7rem; margin: 0; text-transform: uppercase; }
 
-/* --- [DIUBAH] Event Details --- */
+/* --- Event Details (Tidak diubah) --- */
 .event-details {
     display: flex; 
-    flex-direction: column; /* Membuat item ke bawah */
-    align-items: center; /* Menengahkan item */
+    justify-content: center;
     padding: 40px 20px;
     background-color: var(--color-light); 
+    flex-wrap: wrap; 
     gap: 40px;
     border-top: 1px solid #eee; 
     transition: background-color 0.5s;
 }
 .event-section { 
-    width: 100%; /* Lebar item jadi penuh */
-    max-width: 400px; /* Batasi lebar maksimum */
+    flex: 1; 
     min-width: 250px; 
 }
 .event-section h3 {
@@ -188,9 +187,7 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     font-size: 0.95rem; 
     line-height: 1.6; 
     display: flex; 
-    align-items: flex-start; 
-    justify-content: center; /* Teks dan ikon ke tengah */
-    text-align: left;
+    align-items: flex-start;
 }
 .event-section p i { 
     color: var(--color-gold); 
@@ -233,16 +230,26 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     transition: background-color 0.5s; 
 }
 .timeline {
-    display: flex; /* Menggunakan flexbox */
-    flex-direction: column; /* Arah item ke bawah */
-    align-items: center; /* Menengahkan semua item */
-    gap: 20px; /* Jarak antar item */
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    &::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        background-color: var(--color-gold);
+        opacity: 0.3;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2px;
+    }
 }
 .timeline-item {
-    padding: 0; /* Hapus padding lama */
+    padding: 10px 40px;
     position: relative;
-    width: 100%; /* Lebar item jadi penuh */
-    max-width: 450px; /* Batasi lebar maksimum */
+    background-color: inherit;
+    width: 50%; /* Lebar tetap 50% untuk kanan-kiri di desktop */
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -251,6 +258,24 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     opacity: 1;
     transform: translateY(0);
 }
+.timeline-item.left { left: 0; padding-right: 30px; text-align: right; }
+.timeline-item.right { left: 50%; padding-left: 30px; text-align: left;}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background-color: var(--background-main);
+    border: 4px solid var(--color-gold);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+.timeline-item.right::after {
+    left: -10px;
+}
 .timeline-content {
     padding: 20px;
     background-color: var(--background-card);
@@ -258,41 +283,34 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
     border-radius: 8px;
     box-shadow: var(--shadow-light);
     border-bottom: 4px solid var(--color-gold);
-    text-align: center; /* Teks selalu di tengah */
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .timeline-content:hover { 
     transform: translateY(-5px); 
     box-shadow: var(--shadow-heavy); 
 }
-.timeline-content .date { 
-    font-size: 0.8rem; 
-    color: var(--color-gold); 
-    font-weight: bold; 
-    margin-bottom: 8px; 
-    text-transform: uppercase; 
-}
-.timeline-content h4 { 
-    margin-top: 0; 
-    color: var(--color-dark); 
-    font-weight: 700; 
-    font-size: 1.2rem; 
-}
-.timeline-content p { 
-    font-size: 0.9rem; 
-    line-height: 1.6; 
-    margin: 0; 
-}
+.timeline-content .date { font-size: 0.8rem; color: var(--color-gold); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+.timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.2rem; }
+.timeline-content p { font-size: 0.9rem; line-height: 1.6; margin: 0; }
 
 
-/* --- Photo Gallery --- */
+/* --- [DIUBAH] Photo Gallery --- */
 .gallery-section { padding: 40px 20px; }
 .gallery-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    display: grid;
+    /* [DIUBAH] Selalu 2 kolom */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 10px;
+    max-width: 400px; /* Batasi lebar agar tidak terlalu besar di desktop */
+    margin: 0 auto; /* Tengahkan galeri */
 }
 .gallery-grid img {
-    width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer;
+    width: 100%; 
+    height: auto; /* Tinggi otomatis agar gambar tidak terpotong */
+    aspect-ratio: 1 / 1; /* Membuat gambar menjadi persegi */
+    object-fit: cover; 
+    border-radius: 8px; 
+    cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .gallery-grid img:hover { transform: scale(1.05); box-shadow: var(--shadow-heavy); }
@@ -345,13 +363,24 @@ body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 
 .wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; word-wrap: break-word; }
 body.dark-mode .wish-card .message-text { color: #ccc; }
 
-/* --- Gift Section --- */
+/* --- [DIUBAH] Gift Section --- */
 .gift-section { padding: 40px 20px; }
-.gift-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.gift-container { 
+    display: flex; 
+    /* [DIUBAH] Arah ke bawah */
+    flex-direction: column; 
+    align-items: center; /* Menengahkan item */
+    gap: 20px; 
+}
 .gift-box {
-    background: var(--background-card); border: 1px solid #eee; border-radius: 8px; padding: 25px;
-    flex: 1; min-width: 280px; transition: background-color 0.5s; box-shadow: var(--shadow-heavy);
-    max-width: 320px;
+    background: var(--background-card); 
+    border: 1px solid #eee; 
+    border-radius: 8px; 
+    padding: 25px;
+    width: 100%; /* Lebar penuh */
+    max-width: 320px; /* Batasi lebar maksimum */
+    transition: background-color 0.5s; 
+    box-shadow: var(--shadow-heavy);
 }
 .gift-box h4 { margin-top: 0; font-weight: 700; color: var(--color-gold); }
 #account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; user-select: all; word-break: break-all; }
@@ -394,7 +423,39 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
 }
 .toast.show { bottom: 80px; }
 
-/* --- Media Queries (Hanya untuk penyesuaian kecil) --- */
+/* --- Media Queries --- */
+@media (max-width: 768px) {
+    #main-content {
+        padding: 20px 10px;
+    }
+    
+    .event-section p {
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* [DIUBAH] Kisah Cinta di Mobile jadi satu kolom rapi */
+    .timeline::after {
+        left: 20px; 
+    }
+    .timeline-item {
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 15px;
+    }
+    .timeline-item.left, .timeline-item.right {
+        left: 0;
+        text-align: left;
+    }
+    .timeline-item.left::after, .timeline-item.right::after {
+        left: -10px;
+    }
+    
+    .toast.show {
+        bottom: 80px;
+    }
+}
+
 @media (max-width: 480px) {
     .event-details, .guestbook-section, .gift-section, .protocol-section, .gallery-section {
         padding: 30px 15px;
@@ -407,5 +468,9 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
     }
     .action-button {
         width: 100%;
+    }
+    /* [DIUBAH] Galeri di HP kecil tetap 2 kolom tapi lebih kecil */
+    .gallery-grid {
+        gap: 5px;
     }
 }
