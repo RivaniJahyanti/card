@@ -362,23 +362,35 @@ body {
     transition: var(--transition-smooth);
 }
 
+/* --- Gift Section --- */
+.gift-section { padding: 50px 20px; }
+.gift-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .gift-box {
     background: var(--background-card); border: 1px solid var(--color-border); 
     border-radius: 12px; padding: 30px;
     flex: 1; min-width: 280px; 
     transition: var(--transition-smooth); 
     box-shadow: var(--shadow-subtle);
+    display: flex; /* <-- BARU */
+    flex-direction: column; /* <-- BARU */
+    align-items: center; /* <-- BARU */
+    text-align: center; /* <-- BARU */
+    max-width: 320px; /* Tambahkan max-width agar lebih terkontrol */
 }
 .gift-box:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
 }
+.gift-box h4 { margin-top: 0; font-weight: 700; color: var(--color-gold); }
+#account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; user-select: all; word-break: break-all; }
 .gift-box .copy-button {
     background-color: var(--color-dark); color: var(--background-card); border: none; padding: 10px 18px;
     border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);
 }
 .gift-box .copy-button:hover { background-color: #000; }
+#qris-image { max-width: 150px; margin: 15px auto; display: block; border-radius: 8px; }
 
+/* ... kode CSS lainnya ... */
 .protocol-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
 .protocol-item i { font-size: 2.8rem; color: var(--color-green); margin-bottom: 15px; }
 
