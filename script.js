@@ -34,8 +34,20 @@ document.addEventListener('DOMContentLoaded', function() {
         coverPage.classList.add('hidden');
         mainContent.classList.add('visible');
         document.body.style.overflowY = 'auto';
-        audio.play().catch(error => console.log("Autoplay was prevented by the browser."));
-        musicControl.classList.add('playing');
+        
+        // Coba mainkan audio, tangani error jika browser memblokir
+        audio.play().catch(error => {
+            console.log("Autoplay was prevented by the browser. User interaction is needed.");
+        });
+        
+        // Set state visual tombol musik
+        if (!audio.paused) {
+            musicControl.classList.add('playing');
+            musicControl.innerHTML = '<i class="fa-solid fa-music"></i>';
+        } else {
+            musicControl.classList.remove('playing');
+            musicControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        }
     });
 
     musicControl.addEventListener('click', function() {
@@ -50,14 +62,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- 3. Theme Toggle (Dark/Light Mode) ---
+    // --- 3. Theme Toggle ---
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        if(document.body.classList.contains('dark-mode')) {
-            themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        } else {
-            themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        }
+        themeToggle.innerHTML = document.body.classList.contains('dark-mode')
+            ? '<i class="fa-solid fa-sun"></i>'
+            : '<i class="fa-solid fa-moon"></i>';
     });
 
     // --- 4. Countdown Timer Logic ---
@@ -77,75 +87,69 @@ document.addEventListener('DOMContentLoaded', function() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("days").innerText = days.toString().padStart(2, '0');
-        document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-        document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-        document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        document.getElementById("days").innerText = String(days).padStart(2, '0');
+        document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+        document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+        document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
     }, 1000);
 
-    // --- 5. Scroll Animation Logic ---
-    const observerOptions = { threshold: 0.1 };
-    const observer = new IntersectionObserver((entries, observer) => {
+    // --- 5. [BARU] Scroll Animation Logic ---
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
+                // Tambahkan delay berdasarkan atribut data-delay
+                const delay = entry.target.dataset.delay || '0';
+                entry.target.style.animation = `fadeInUp 0.8s ${delay}s both`;
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
-    // Animate general sections
-    document.querySelectorAll('.animated-section').forEach(section => observer.observe(section));
-    
-    // Animate timeline items individually
-    const timelineObserver = new IntersectionObserver((entries, observer) => {
-         entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Add a staggered delay based on the item's index
-                entry.target.style.transitionDelay = `${index * 150}ms`;
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 }); // Trigger when 50% of the item is visible
-
-    document.querySelectorAll('.timeline-item').forEach(item => timelineObserver.observe(item));
-
+    // Terapkan observer ke semua elemen .animated-section
+    document.querySelectorAll('.animated-section').forEach((section, index) => {
+        // Beri delay bertahap untuk setiap section utama
+        section.dataset.delay = index * 0.1;
+        observer.observe(section);
+    });
 
     // --- 6. Guestbook & RSVP Logic ---
     const form = document.getElementById('guestbook-form');
     const wishesList = document.getElementById('wishes-list');
     const submitWishBtn = document.getElementById('submit-wish-btn');
-    const storageKey = 'weddingWishes_FulanFulanah_v2';
+    const storageKey = 'weddingWishes_FulanFulanah_v3'; // Versi baru
 
     function loadWishes() {
         const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
         wishesList.innerHTML = '';
-        wishes.forEach(wish => addWishToDOM(wish.name, wish.message, wish.rsvp, false));
+        wishes.forEach(wish => addWishToDOM(wish));
     }
 
-    function saveWish(name, message, rsvp) {
+    function saveWish(newWish) {
         const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
-        wishes.unshift({ name, message, rsvp, date: new Date().toISOString() });
+        wishes.unshift(newWish);
         localStorage.setItem(storageKey, JSON.stringify(wishes));
     }
     
-    function addWishToDOM(name, message, rsvp, isNew) {
+    function addWishToDOM(wish, isNew = false) {
         const wishCard = document.createElement('div');
         wishCard.className = 'wish-card';
-        const rsvpText = rsvp === 'attending' ? 'Hadir' : 'Tidak Hadir';
-        const rsvpClass = rsvp === 'attending' ? 'attending' : 'not-attending';
+        
+        const rsvpText = wish.rsvp === 'attending' ? 'Hadir' : 'Tidak Hadir';
+        const rsvpClass = wish.rsvp === 'attending' ? 'attending' : 'not-attending';
         
         wishCard.innerHTML = `
             <div class="sender-info">
-                <p class="sender-name">${escapeHTML(name)}</p>
+                <p class="sender-name">${escapeHTML(wish.name)}</p>
                 <span class="rsvp-status ${rsvpClass}">${rsvpText}</span>
             </div>
-            <p class="message-text">${escapeHTML(message)}</p>
+            <p class="message-text">${escapeHTML(wish.message)}</p>
         `;
         
-        if (isNew) { wishesList.prepend(wishCard); }
-        else { wishesList.appendChild(wishCard); }
+        if (isNew) {
+            wishesList.prepend(wishCard);
+        } else {
+            wishesList.appendChild(wishCard);
+        }
     }
 
     function escapeHTML(str) {
@@ -160,16 +164,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const guestMessageInput = document.getElementById('guest-message');
         const rsvpInput = document.querySelector('input[name="rsvp"]:checked');
 
-        const name = guestNameInput.value.trim();
-        const message = guestMessageInput.value.trim();
-        const rsvp = rsvpInput ? rsvpInput.value : null;
+        const newWish = {
+            name: guestNameInput.value.trim(),
+            message: guestMessageInput.value.trim(),
+            rsvp: rsvpInput ? rsvpInput.value : null,
+            date: new Date().toISOString()
+        };
 
-        if (name && message && rsvp) {
+        if (newWish.name && newWish.message && newWish.rsvp) {
             submitWishBtn.disabled = true;
             submitWishBtn.textContent = 'Mengirim...';
+            
             setTimeout(() => {
-                addWishToDOM(name, message, rsvp, true);
-                saveWish(name, message, rsvp);
+                addWishToDOM(newWish, true);
+                saveWish(newWish);
                 form.reset();
                 submitWishBtn.disabled = false;
                 submitWishBtn.textContent = 'Kirim Ucapan';
@@ -182,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadWishes();
 
-    // --- 7. Toast Notification ---
+    // --- 7. Toast & Clipboard Logic ---
     const toast = document.getElementById('toast-notification');
     let toastTimer;
     function showToast(message, type = 'success') {
@@ -195,9 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    // --- 8. Copy to Clipboard Logic ---
-    const copyButtons = document.querySelectorAll('.copy-button');
-    copyButtons.forEach(button => {
+    document.querySelectorAll('.copy-button').forEach(button => {
         button.addEventListener('click', () => {
             const targetSelector = button.dataset.clipboardTarget;
             const textToCopy = document.querySelector(targetSelector).innerText;
@@ -207,17 +213,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // --- 9. Photo Gallery Logic ---
+    // --- 8. Photo Gallery Logic ---
     const modal = document.getElementById('gallery-modal');
     const modalImg = document.getElementById('modal-image');
-    const galleryImages = document.querySelectorAll('.gallery-item');
     const closeModal = document.querySelector('.modal-close');
-    galleryImages.forEach(img => {
+    
+    document.querySelectorAll('.gallery-item').forEach(img => {
         img.addEventListener('click', function() {
             modal.style.display = "flex";
             modalImg.src = this.src;
         });
     });
+    
     closeModal.onclick = () => modal.style.display = "none";
-    window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
+    window.onclick = (event) => { 
+        if (event.target == modal) modal.style.display = "none"; 
+    }
 });
