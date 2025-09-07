@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.querySelector('.card');
     const audio = document.getElementById('background-music');
     const musicControl = document.getElementById('music-control');
-    const themeToggle = document.getElementById('theme-toggle');
-
+    
     // --- 0. Initial Setup ---
     const leafContainer = document.getElementById('leaf-container');
     if (leafContainer) {
@@ -34,20 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
         coverPage.classList.add('hidden');
         mainContent.classList.add('visible');
         document.body.style.overflowY = 'auto';
-        
-        // Coba mainkan audio, tangani error jika browser memblokir
-        audio.play().catch(error => {
-            console.log("Autoplay was prevented by the browser. User interaction is needed.");
-        });
-        
-        // Set state visual tombol musik
-        if (!audio.paused) {
+
+        audio.play().then(() => {
             musicControl.classList.add('playing');
             musicControl.innerHTML = '<i class="fa-solid fa-music"></i>';
-        } else {
+        }).catch(error => {
+            console.error("Audio play failed:", error);
             musicControl.classList.remove('playing');
             musicControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-        }
+        });
     });
 
     musicControl.addEventListener('click', function() {
@@ -62,15 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- 3. Theme Toggle ---
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        themeToggle.innerHTML = document.body.classList.contains('dark-mode')
-            ? '<i class="fa-solid fa-sun"></i>'
-            : '<i class="fa-solid fa-moon"></i>';
-    });
-
-    // --- 4. Countdown Timer Logic ---
+    // --- 3. Countdown Timer Logic ---
     const countdownDate = new Date("Dec 21, 2025 09:00:00").getTime();
     const countdownFunction = setInterval(function() {
         const now = new Date().getTime();
@@ -93,11 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
     }, 1000);
 
-    // --- 5. [BARU] Scroll Animation Logic ---
+    // --- 4. Scroll Animation Logic ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Tambahkan delay berdasarkan atribut data-delay
                 const delay = entry.target.dataset.delay || '0';
                 entry.target.style.animation = `fadeInUp 0.8s ${delay}s both`;
                 observer.unobserve(entry.target);
@@ -105,18 +90,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, { threshold: 0.1 });
 
-    // Terapkan observer ke semua elemen .animated-section
     document.querySelectorAll('.animated-section').forEach((section, index) => {
-        // Beri delay bertahap untuk setiap section utama
         section.dataset.delay = index * 0.1;
         observer.observe(section);
     });
 
-    // --- 6. Guestbook & RSVP Logic ---
+    // --- 5. Guestbook Logic (Tanpa RSVP) ---
     const form = document.getElementById('guestbook-form');
     const wishesList = document.getElementById('wishes-list');
     const submitWishBtn = document.getElementById('submit-wish-btn');
-    const storageKey = 'weddingWishes_FulanFulanah_v3'; // Versi baru
+    const storageKey = 'weddingWishes_FulanFulanah_v4';
 
     function loadWishes() {
         const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
@@ -134,13 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const wishCard = document.createElement('div');
         wishCard.className = 'wish-card';
         
-        const rsvpText = wish.rsvp === 'attending' ? 'Hadir' : 'Tidak Hadir';
-        const rsvpClass = wish.rsvp === 'attending' ? 'attending' : 'not-attending';
-        
         wishCard.innerHTML = `
             <div class="sender-info">
                 <p class="sender-name">${escapeHTML(wish.name)}</p>
-                <span class="rsvp-status ${rsvpClass}">${rsvpText}</span>
             </div>
             <p class="message-text">${escapeHTML(wish.message)}</p>
         `;
@@ -162,16 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const guestNameInput = document.getElementById('guest-name');
         const guestMessageInput = document.getElementById('guest-message');
-        const rsvpInput = document.querySelector('input[name="rsvp"]:checked');
-
+        
         const newWish = {
             name: guestNameInput.value.trim(),
             message: guestMessageInput.value.trim(),
-            rsvp: rsvpInput ? rsvpInput.value : null,
             date: new Date().toISOString()
         };
 
-        if (newWish.name && newWish.message && newWish.rsvp) {
+        if (newWish.name && newWish.message) {
             submitWishBtn.disabled = true;
             submitWishBtn.textContent = 'Mengirim...';
             
@@ -190,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadWishes();
 
-    // --- 7. Toast & Clipboard Logic ---
+    // --- 6. Toast & Clipboard Logic ---
     const toast = document.getElementById('toast-notification');
     let toastTimer;
     function showToast(message, type = 'success') {
@@ -213,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // --- 8. Photo Gallery Logic ---
+    // --- 7. Photo Gallery Logic ---
     const modal = document.getElementById('gallery-modal');
     const modalImg = document.getElementById('modal-image');
     const closeModal = document.querySelector('.modal-close');
