@@ -185,7 +185,7 @@
 
         .quote-section { padding: 40px; font-style: italic; color: var(--color-text-muted); line-height: 1.7; transition: color 0.5s; }
         
-        /* --- Love Story Section (REVISED) --- */
+        /* === Love Story Section (REVISED & IMPROVED) === */
         .story-section { padding: 40px; background-color: var(--color-light); transition: background-color 0.5s; }
         .timeline { position: relative; max-width: 100%; margin: 0 auto; }
         .timeline::after {
@@ -193,24 +193,66 @@
             top: 0; bottom: 0; left: 50%; margin-left: -1.5px;
         }
         body.dark-mode .timeline::after { background-color: #444; }
-        .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; }
-        .timeline-item.left { left: 0; text-align: right; }
-        .timeline-item.right { left: 50%; text-align: left; }
-        .timeline-icon {
-            position: absolute; top: 15px; right: -25px; z-index: 1;
-            width: 50px; height: 50px; background-color: var(--color-gold);
-            border-radius: 50%; display: flex; justify-content: center;
-            align-items: center; color: white; font-size: 1.2rem;
-            border: 4px solid var(--background-main);
+        
+        .timeline-item { 
+            padding: 10px 40px; position: relative; background-color: inherit; width: 50%;
+            opacity: 0; transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .timeline-item.right .timeline-icon { left: -25px; }
+        .timeline-item.is-visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        .timeline-item.left { left: 0; }
+        .timeline-item.right { left: 50%; }
+
+        .timeline-point {
+            position: absolute; top: 20px; right: -25px; z-index: 2;
+            width: 50px; height: 50px;
+            background-color: var(--background-light);
+            border: 3px solid var(--color-gold);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--color-gold); font-size: 1.3rem;
+            transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+        }
+        .timeline-item.right .timeline-point { left: -25px; }
+
         .timeline-content {
             padding: 20px; background-color: var(--background-card); border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, border-color 0.5s;
         }
+        body.dark-mode .timeline-content { border-color: #444; }
         .timeline-content:hover { transform: translateY(-5px); box-shadow: var(--shadow-heavy); }
-        .timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; }
-        .timeline-content .date { font-size: 0.8rem; color: var(--color-gold); font-weight: bold; margin-bottom: 5px; }
+
+        /* The pointer arrow */
+        .timeline-content::after {
+            content: " ";
+            position: absolute;
+            top: 28px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            transition: border-color 0.5s;
+        }
+        .timeline-item.left .timeline-content::after {
+            right: -11px;
+            border-width: 8px 0 8px 10px;
+            border-color: transparent transparent transparent var(--background-card);
+        }
+        .timeline-item.right .timeline-content::after {
+            left: -11px;
+            border-width: 8px 10px 8px 0;
+            border-color: transparent var(--background-card) transparent transparent;
+        }
+
+        .timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.1rem; }
+        .timeline-content .date { font-size: 0.8rem; color: var(--color-gold); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+        .timeline-content p { font-size: 0.9rem; line-height: 1.6; }
+        /* === End of Love Story Section === */
 
 
         /* --- Photo Gallery --- */
@@ -269,7 +311,7 @@
         .wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; }
         body.dark-mode .wish-card .message-text { color: #ccc; }
 
-        /* --- Gift Section (REVISED) --- */
+        /* --- Gift Section --- */
         .gift-section { padding: 40px; }
         .gift-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
         .gift-box { 
@@ -321,8 +363,16 @@
             .timeline::after { left: 25px; }
             .timeline-item { width: 100%; padding-left: 70px; padding-right: 15px; }
             .timeline-item.left, .timeline-item.right { left: 0%; text-align: left; }
-            .timeline-item .timeline-icon { left: 0; }
-            .timeline-item.left .timeline-icon, .timeline-item.right .timeline-icon { right: auto; left: 0; }
+            
+            .timeline-point { left: 0px; }
+            
+            .timeline-item.left .timeline-content::after, .timeline-item.right .timeline-content::after {
+                left: -11px;
+                right: auto;
+                border-width: 8px 10px 8px 0;
+                border-color: transparent var(--background-card) transparent transparent;
+            }
+
             .toast.show { bottom: 130px; } /* Adjust toast position above controls on mobile */
         }
     </style>
@@ -373,18 +423,18 @@
                         <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Fulan+%26+Fulanah&dates=20251221T040000Z/20251221T070000Z&details=Resepsi+Pernikahan+Fulan+%26+Fulanah&location=Gedung+Balai+Kartini,+Jakarta" target="_blank" class="action-button">
                             <i class="fa-solid fa-calendar-plus"></i> Simpan Tanggal
                         </a>
-                        <a href="https://maps.app.goo.gl/yourLocationLink" target="_blank" class="action-button">
+                        <a href="http://googleusercontent.com/maps.google.com/3" target="_blank" class="action-button">
                             <i class="fa-solid fa-diamond-turn-right"></i> Buka Peta
                         </a>
                     </div>
                 </div>
             </div>
             
-             <div class="story-section animated-section">
-                <h2 class="section-title">Kisah Cinta Kami</h2>
+             <div class="story-section">
+                <h2 class="section-title animated-section">Kisah Cinta Kami</h2>
                 <div class="timeline">
                     <div class="timeline-item left">
-                        <div class="timeline-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+                        <div class="timeline-point"><i class="fa-solid fa-handshake-angle"></i></div>
                         <div class="timeline-content">
                             <p class="date">Agustus 2022</p>
                             <h4>Pertemuan Pertama</h4>
@@ -392,7 +442,7 @@
                         </div>
                     </div>
                     <div class="timeline-item right">
-                        <div class="timeline-icon"><i class="fa-solid fa-ring"></i></div>
+                        <div class="timeline-point"><i class="fa-solid fa-ring"></i></div>
                         <div class="timeline-content">
                             <p class="date">Maret 2024</p>
                             <h4>Lamaran</h4>
@@ -400,7 +450,7 @@
                         </div>
                     </div>
                     <div class="timeline-item left">
-                        <div class="timeline-icon"><i class="fa-solid fa-heart"></i></div>
+                        <div class="timeline-point"><i class="fa-solid fa-heart"></i></div>
                         <div class="timeline-content">
                             <p class="date">Desember 2025</p>
                             <h4>Hari Bahagia</h4>
@@ -493,7 +543,7 @@
     </div>
     
     <div id="gallery-modal" class="modal">
-        <span class="modal-close">&times;</span>
+        <span class="modal-close">×</span>
         <img class="modal-content" id="modal-image">
     </div>
 
@@ -524,7 +574,6 @@
         const themeToggle = document.getElementById('theme-toggle');
 
         // --- 0. Initial Setup ---
-        // Create falling leaves
         const leafContainer = document.getElementById('leaf-container');
         if (leafContainer) {
             for (let i = 0; i < 15; i++) {
@@ -601,18 +650,35 @@
         }, 1000);
 
         // --- 5. Scroll Animation Logic ---
-        const observer = new IntersectionObserver((entries) => {
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Optional: stop observing after animation
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
-        const sections = document.querySelectorAll('.animated-section');
-        sections.forEach(section => observer.observe(section));
+        }, observerOptions);
 
-        // --- 6. Guestbook & RSVP Logic (Using Local Storage for Demo) ---
+        // Animate general sections
+        document.querySelectorAll('.animated-section').forEach(section => observer.observe(section));
+        
+        // Animate timeline items individually
+        const timelineObserver = new IntersectionObserver((entries, observer) => {
+             entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Add a staggered delay based on the item's index
+                    entry.target.style.transitionDelay = `${index * 150}ms`;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 }); // Trigger when 50% of the item is visible
+
+        document.querySelectorAll('.timeline-item').forEach(item => timelineObserver.observe(item));
+
+
+        // --- 6. Guestbook & RSVP Logic ---
         const form = document.getElementById('guestbook-form');
         const wishesList = document.getElementById('wishes-list');
         const submitWishBtn = document.getElementById('submit-wish-btn');
@@ -620,7 +686,7 @@
 
         function loadWishes() {
             const wishes = JSON.parse(localStorage.getItem(storageKey)) || [];
-            wishesList.innerHTML = ''; // Clear list before loading
+            wishesList.innerHTML = '';
             wishes.forEach(wish => addWishToDOM(wish.name, wish.message, wish.rsvp, false));
         }
 
@@ -644,11 +710,8 @@
                 <p class="message-text">${escapeHTML(message)}</p>
             `;
             
-            if (isNew) {
-                 wishesList.prepend(wishCard);
-            } else {
-                 wishesList.appendChild(wishCard);
-            }
+            if (isNew) { wishesList.prepend(wishCard); }
+            else { wishesList.appendChild(wishCard); }
         }
 
         function escapeHTML(str) {
@@ -670,8 +733,6 @@
             if (name && message && rsvp) {
                 submitWishBtn.disabled = true;
                 submitWishBtn.textContent = 'Mengirim...';
-                
-                // Simulate server delay. For a real app, use fetch() to a backend.
                 setTimeout(() => {
                     addWishToDOM(name, message, rsvp, true);
                     saveWish(name, message, rsvp);
