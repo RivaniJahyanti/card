@@ -24,7 +24,11 @@ body.dark-mode {
     --shadow-heavy: 0 5px 15px rgba(0,0,0,0.4);
 }
 
-/* General Styling */
+/* --- [PENTING] Global Reset & Fondasi Responsif --- */
+*, *::before, *::after {
+    box-sizing: border-box; /* Mencegah padding dan border merusak layout */
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -35,7 +39,7 @@ body {
     margin: 0;
     padding: 0;
     color: var(--color-dark);
-    overflow-x: hidden;
+    overflow-x: hidden; /* Wajib untuk mencegah scroll horizontal */
     transition: background-color 0.5s, color 0.5s;
 }
 
@@ -54,7 +58,7 @@ body {
     100% { top: 100vh; transform: translateX(100px) rotate(360deg); opacity: 0; }
 }
 
-/* --- Cover Page --- */
+/* --- Cover Page (Font Responsif) --- */
 #cover-page {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1523438885207-e6b412b1e8e8?q=80&w=1887&auto=format&fit=crop');
@@ -65,7 +69,10 @@ body {
 }
 #cover-page.hidden { opacity: 0; visibility: hidden; }
 #cover-page h1 {
-    font-family: var(--font-heading); font-size: 3.5rem; margin: 10px 0;
+    font-family: var(--font-heading);
+    /* [DISEMPURNAKAN] Ukuran font kini fleksibel */
+    font-size: clamp(2.8rem, 10vw, 4rem);
+    margin: 10px 0;
     color: var(--color-gold); font-weight: normal; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 #cover-page p { font-size: 1.1rem; margin-bottom: 15px; }
@@ -82,17 +89,17 @@ body {
     100% { box-shadow: 0 0 0 0 rgba(191, 160, 91, 0); }
 }
 
-/* --- Main Content --- */
+/* --- Main Content & Card --- */
 #main-content {
     display: flex; justify-content: center; align-items: center;
-    min-height: 100vh; padding: 40px 20px;
+    min-height: 100vh;
+    padding: 40px 15px; /* Padding lebih kecil di layar HP */
 }
-
 .card {
     background-color: var(--background-card);
     border-radius: 15px; box-shadow: var(--shadow-light);
     max-width: 700px; width: 100%; text-align: center;
-    overflow: hidden; border: 1px solid #ddd;
+    overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
     opacity: 0; transform: translateY(20px) scale(0.98);
     transition: opacity 1s ease, transform 1s ease, background-color 0.5s;
 }
@@ -104,121 +111,167 @@ body {
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 .animated-section.is-visible { opacity: 1; transform: translateY(0); }
-
 .section-title {
     font-family: var(--font-body); font-weight: 700;
-    color: var(--color-dark); margin-bottom: 25px; font-size: 1.8rem;
+    color: var(--color-dark); margin-bottom: 25px;
+    font-size: clamp(1.6rem, 6vw, 1.8rem); /* Font responsif */
 }
 .section-subtitle {
     font-size: 0.95rem; color: var(--color-text-muted); margin-top: -20px; margin-bottom: 30px;
+    padding: 0 15px;
 }
-
-.card-header { padding: 40px; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
+.card-header { padding: 40px 20px; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
 body.dark-mode .card-header { background: linear-gradient(135deg, #333 0%, #222 100%); }
 
 .card-header h1 {
-    font-family: var(--font-heading); font-size: 3rem;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 8vw, 3rem);
     color: var(--color-gold); margin: 0;
 }
-
 .couple-photo {
     width: 150px; height: 150px; border-radius: 50%;
     object-fit: cover; border: 5px solid var(--color-gold);
     margin-top: 20px; box-shadow: var(--shadow-heavy);
 }
-
 .couple-names {
-    font-family: var(--font-heading); font-size: 3.5rem;
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 12vw, 4rem);
     color: var(--color-dark); margin: 20px 0 10px 0;
 }
-
-.invitation-text { font-size: 0.95rem; padding: 0 20px; line-height: 1.7; }
+.invitation-text { font-size: 0.95rem; padding: 0 15px; line-height: 1.7; }
 
 /* --- Countdown Timer --- */
 #countdown {
-    display: flex; justify-content: center; gap: 15px; padding: 30px 20px;
+    display: flex; justify-content: center;
+    gap: 10px;
+    padding: 30px 15px;
     background-color: var(--color-green); color: white;
 }
 .countdown-item {
     display: flex; flex-direction: column; align-items: center;
-    background-color: rgba(255, 255, 255, 0.1); padding: 10px;
-    border-radius: 8px; min-width: 60px;
+    background-color: rgba(255, 255, 255, 0.1); padding: 10px 5px;
+    border-radius: 8px;
+    min-width: 0;
+    flex: 1;
+    max-width: 80px;
 }
-.countdown-item span { font-size: 2rem; font-weight: 700; }
+.countdown-item span {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-weight: 700;
+}
 .countdown-item p { font-size: 0.7rem; margin: 0; text-transform: uppercase; }
 
 /* --- Event Details --- */
 .event-details {
-    display: flex; justify-content: space-around; padding: 40px 20px;
-    background-color: var(--color-light); flex-wrap: wrap; gap: 30px;
+    display: flex; justify-content: center; /* DIUBAH: Jadi center agar simetris saat wrap */
+    padding: 40px 20px;
+    background-color: var(--color-light); flex-wrap: wrap; gap: 40px; /* Gap ditambah */
     border-top: 1px solid #eee; transition: background-color 0.5s;
 }
 .event-section { flex: 1; min-width: 250px; }
 .event-section h3 {
-    font-family: var(--font-body); font-weight: 700;
-    color: var(--color-gold); font-size: 1.5rem; margin-bottom: 15px;
+    font-family: var(--font-heading); /* Font diganti agar lebih elegan */
+    font-weight: normal;
+    font-size: 2.5rem;
+    color: var(--color-gold); margin-bottom: 20px;
 }
-.event-section p { margin: 10px 0; font-size: 0.95rem; line-height: 1.5; }
-.event-section i { color: var(--color-gold); margin-right: 10px; width: 20px; }
+.event-section p { 
+    margin: 10px 0; font-size: 0.95rem; line-height: 1.6; 
+    display: flex; align-items: flex-start; text-align: left;
+}
+/* [DISEMPURNAKAN] Perataan ikon dan teks agar rapi */
+.event-section p i { 
+    color: var(--color-gold); margin-right: 12px; width: 20px; 
+    margin-top: 4px; text-align: center;
+}
 .action-button-group { display: flex; gap: 10px; margin-top: 20px; justify-content: center; flex-wrap: wrap;}
 .action-button {
     background-color: var(--color-gold); color: white !important; border: none; padding: 10px 20px;
     border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s;
-    text-decoration: none; display: inline-block; font-size: 0.9rem;
+    text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem;
 }
 .action-button:hover { background-color: #a38647; }
 .action-button i { margin-right: 8px; }
 
-.quote-section { padding: 40px; font-style: italic; color: var(--color-text-muted); line-height: 1.7; transition: color 0.5s; }
+.quote-section { padding: 40px 20px; font-style: italic; color: var(--color-text-muted); line-height: 1.7; transition: color 0.5s; }
 
-/* === Love Story Section (REVISED - NO LINE) === */
-.story-section { padding: 40px; background-color: var(--color-light); transition: background-color 0.5s; }
-.timeline { position: relative; max-width: 100%; margin: 0 auto; }
-
-/* THIS IS THE CHANGE: The connecting line is removed */
-.timeline::after {
-   display: none;
+/* === [REVISI TOTAL] Love Story Section === */
+.story-section { 
+    padding: 40px 15px; 
+    background-color: var(--color-light); 
+    transition: background-color 0.5s; 
 }
-
-.timeline-item { 
-    padding: 10px 40px; position: relative; background-color: inherit; width: 50%;
-    margin-bottom: 20px; /* Add some space between items */
-    opacity: 0; transform: translateY(50px);
+.timeline {
+    position: relative;
+    max-width: 700px; /* Diberi lebar max */
+    margin: 0 auto;
+    /* [BARU] Garis tengah untuk timeline di desktop */
+    &::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        background-color: var(--color-gold);
+        opacity: 0.3;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2px;
+    }
+}
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+    opacity: 0;
+    transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 .timeline-item.is-visible {
-    opacity: 1; transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
+.timeline-item.left { left: 0; padding-right: 30px; text-align: right; }
+.timeline-item.right { left: 50%; padding-left: 30px; text-align: left;}
 
-.timeline-item.left { left: 0; }
-.timeline-item.right { left: 50%; }
-
-/* Hide the point and arrow if there's no line */
-.timeline-point, .timeline-content::after {
-    display: none;
+/* [BARU] Titik penanda di timeline */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background-color: var(--background-main);
+    border: 4px solid var(--color-gold);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
 }
-
+.timeline-item.right::after {
+    left: -10px;
+}
 .timeline-content {
-    padding: 20px; background-color: var(--background-card); border-radius: 8px;
+    padding: 20px;
+    background-color: var(--background-card);
     position: relative;
-    text-align: center; /* Center content now that it's floating */
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    border-top: 4px solid var(--color-gold);
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s, border-color 0.5s;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    border-bottom: 4px solid var(--color-gold); /* Posisi border diubah */
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-body.dark-mode .timeline-content { border-color: var(--color-gold); }
-.timeline-content:hover { transform: translateY(-5px); box-shadow: var(--shadow-heavy); }
-
+.timeline-content:hover { 
+    transform: translateY(-5px); 
+    box-shadow: var(--shadow-heavy); 
+}
 .timeline-content .date { font-size: 0.8rem; color: var(--color-gold); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
-.timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.1rem; }
-.timeline-content p { font-size: 0.9rem; line-height: 1.6; }
-/* === End of Love Story Section === */
-
+.timeline-content h4 { margin-top: 0; color: var(--color-dark); font-weight: 700; font-size: 1.2rem; }
+.timeline-content p { font-size: 0.9rem; line-height: 1.6; margin: 0; }
 
 /* --- Photo Gallery --- */
-.gallery-section { padding: 40px; }
+.gallery-section { padding: 40px 20px; }
 .gallery-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
 }
 .gallery-grid img {
     width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer;
@@ -232,7 +285,7 @@ body.dark-mode .timeline-content { border-color: var(--color-gold); }
     width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85);
     justify-content: center; align-items: center;
 }
-.modal-content { margin: auto; display: block; max-width: 80%; max-height: 85vh; animation: zoomIn 0.3s; }
+.modal-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; animation: zoomIn 0.3s; }
 @keyframes zoomIn { from { transform: scale(0.8); } to { transform: scale(1); } }
 .modal-close {
     position: absolute; top: 20px; right: 35px; color: #f1f1f1;
@@ -241,11 +294,12 @@ body.dark-mode .timeline-content { border-color: var(--color-gold); }
 
 /* --- Guestbook & Gift Sections --- */
 .guestbook-section {
-    padding: 40px; background-color: var(--color-light); border-top: 1px solid #eee;
+    padding: 40px 20px; background-color: var(--color-light); border-top: 1px solid #eee;
     transition: background-color 0.5s;
 }
 #guestbook-form input, #guestbook-form textarea {
-    width: calc(100% - 24px); padding: 12px; margin-bottom: 12px;
+    width: 100%;
+    padding: 12px; margin-bottom: 12px;
     border-radius: 5px; border: 1px solid #ccc; font-family: var(--font-body);
 }
 #rsvp-options { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
@@ -253,6 +307,8 @@ body.dark-mode .timeline-content { border-color: var(--color-gold); }
 #guestbook-form button {
     background-color: var(--color-gold); color: white; border: none; padding: 12px 25px;
     border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s, opacity 0.3s;
+    width: 100%;
+    max-width: 250px;
 }
 #guestbook-form button:hover { background-color: #a38647; }
 #guestbook-form button:disabled { background-color: #ccc; cursor: not-allowed; }
@@ -263,32 +319,33 @@ body.dark-mode .timeline-content { border-color: var(--color-gold); }
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.5s;
 }
 .wish-card:hover { transform: translateX(5px); box-shadow: var(--shadow-heavy); }
-.wish-card .sender-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.wish-card .sender-info { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 10px; }
 .wish-card .sender-name { font-weight: bold; }
 .rsvp-status { font-size: 0.8rem; font-weight: 500; padding: 3px 8px; border-radius: 10px; color: white; }
 .rsvp-status.attending { background-color: var(--color-green); }
 .rsvp-status.not-attending { background-color: #c94c4c; }
-.wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; }
+.wish-card .message-text { font-size: 0.9rem; color: #555; line-height: 1.5; word-wrap: break-word; }
 body.dark-mode .wish-card .message-text { color: #ccc; }
 
 /* --- Gift Section --- */
-.gift-section { padding: 40px; }
+.gift-section { padding: 40px 20px; }
 .gift-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-.gift-box { 
+.gift-box {
     background: var(--background-card); border: 1px solid #eee; border-radius: 8px; padding: 25px;
     flex: 1; min-width: 280px; transition: background-color 0.5s; box-shadow: var(--shadow-heavy);
+    max-width: 320px;
 }
 .gift-box h4 { margin-top: 0; font-weight: 700; color: var(--color-gold); }
-#account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; user-select: all; }
-.gift-box .copy-button { 
-    background: var(--color-dark); color: white; border: none; padding: 8px 15px; 
+#account-number { font-weight: bold; font-size: 1.1rem; margin: 10px 0; user-select: all; word-break: break-all; }
+.gift-box .copy-button {
+    background: var(--color-dark); color: var(--background-card); border: none; padding: 8px 15px;
     border-radius: 5px; cursor: pointer; transition: background 0.3s;
 }
 #qris-image { max-width: 150px; margin: 15px auto; display: block; border-radius: 8px; }
 
 /* Health Protocols */
 .protocol-section {
-    padding: 40px; background-color: var(--color-light); border-top: 1px solid #eee;
+    padding: 40px 20px; background-color: var(--color-light); border-top: 1px solid #eee;
     transition: background-color 0.5s;
 }
 .protocol-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
@@ -298,10 +355,10 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
 
 .card-footer { padding: 30px; font-family: var(--font-heading); font-size: 2rem; color: var(--color-gold); }
 
-/* --- Floating Controls (Music & Theme) --- */
+/* --- Floating Controls --- */
 .floating-controls { position: fixed; bottom: 20px; right: 20px; z-index: 99; display: flex; flex-direction: column; gap: 10px; }
 .control-btn {
-    width: 40px; height: 40px; background-color: var(--color-gold);
+    width: 45px; height: 45px; background-color: var(--color-gold);
     color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
     cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s;
 }
@@ -315,16 +372,57 @@ body.dark-mode .wish-card .message-text { color: #ccc; }
     background-color: var(--color-dark); color: white; padding: 12px 25px;
     border-radius: 50px; font-size: 0.9rem; z-index: 110;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out;
+    width: calc(100% - 40px); max-width: 400px; text-align: center;
 }
 .toast.show { bottom: 80px; }
 
-/* Responsive */
+/* --- [PENTING] Media Queries untuk Responsif --- */
+
+/* Untuk Tablet & HP besar (Layar di bawah 768px) */
 @media (max-width: 768px) {
-    .timeline-item, .timeline-item.right, .timeline-item.left {
+    #main-content {
+        padding: 20px 10px;
+    }
+    
+    .event-section p {
+        justify-content: center; /* Teks dan ikon jadi di tengah */
+        text-align: center;
+    }
+
+    /* [REVISI] Tampilan timeline di mobile */
+    .timeline::after {
+        left: 20px; /* Garisnya pindah ke kiri */
+    }
+    .timeline-item {
         width: 100%;
-        left: 0;
-        padding-left: 15px;
+        padding-left: 50px; /* Beri ruang untuk garis dan titik */
         padding-right: 15px;
     }
-    .toast.show { bottom: 130px; } /* Adjust toast position above controls on mobile */
+    .timeline-item.left, .timeline-item.right {
+        left: 0;
+        text-align: left; /* Semua teks rata kiri */
+    }
+    .timeline-item.left::after, .timeline-item.right::after {
+        left: -10px; /* Titiknya pindah ke kiri */
+    }
+    
+    .toast.show {
+        bottom: 80px; /* Posisikan di atas tombol kontrol */
+    }
+}
+
+/* Untuk HP dengan layar sangat kecil (di bawah 480px) */
+@media (max-width: 480px) {
+    .event-details, .guestbook-section, .gift-section, .protocol-section, .gallery-section {
+        padding: 30px 15px;
+    }
+    #countdown {
+        gap: 5px;
+    }
+    .couple-names {
+        font-size: 2.8rem;
+    }
+    .action-button {
+        width: 100%;
+    }
 }
